@@ -52,12 +52,18 @@
  *    version 1.14  @  2025-07-04  -  Fixed connection state detection logic; Separated setup errors from actual communication failures;
  *                                     Uses real command/response validation instead of relying on socket status exceptions;
  *                                     Removed connection banning - focuses on communication success rather than setup completion
+ *    version 1.15  @  2025-07-05  -  Fixed critical queue processing bug where communication failures would cause queue to get stuck;
+ *                                     Added queue restart logic when connection is re-established; Prevents missing commands issue;
+ *                                     Clean stable version without ACK monitoring - simple and reliable command processing
+ *    version 1.16  @  2025-07-05  -  Fixed source playing status logic; Reverted to working zone-based approach from version 1.10;
+ *                                     Removed broken #SRC message parsing; Source playing status now correctly derived from zone status;
+ *                                     Added proper initialization and #ALLOFF handling for source playing states
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.14"
+@Field static final String DRIVER_VERSION = "1.16"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -129,7 +135,7 @@ preferences {
     input name: "reconnectInterval", type: "number", title: "Reconnect Interval", description: "Seconds between reconnection attempts if connection is lost", defaultValue: 30, required: true
     input name: "heartbeatInterval", type: "number", title: "Heartbeat Interval (Seconds)", description: "Seconds between status update checks (15-300, 0 = disabled)", defaultValue: 25, required: true, range: "0,15..300"
     input name: "connectionTimeout", type: "number", title: "Connection Timeout (Minutes)", description: "Minutes without response before reconnecting (10-60)", defaultValue: 30, required: true, range: "10..60"
-    input name: "commandSpacing", type: "number", title: "Command Spacing (Milliseconds)", description: "Delay between queued commands to prevent buffer overrun (500-5000ms)", defaultValue: 1000, required: true, range: "500..5000"
+    input name: "commandSpacing", type: "number", title: "Command Spacing (Milliseconds)", description: "Delay between queued commands to prevent buffer overrun (200-1000ms)", defaultValue: 500, required: true, range: "200..1000"
     input name: "maxConnectionFailures", type: "number", title: "Max Connection Failures", description: "Stop reconnection attempts after this many failures (5-50)", defaultValue: 15, required: true, range: "5..50"
     input name: "enableCommandQueue", type: "bool", title: "Enable Command Queuing", description: "Queue commands to prevent buffer overruns (recommended)", defaultValue: true
     input name: "enableNotifications", type: "bool", title: "Enable Connection Notifications", description: "Send alerts when connection fails", defaultValue: false
@@ -193,185 +199,103 @@ void initialize() {
     state.heartbeatZone = 1
     state.consecutiveFailures = 0
     state.maxConsecutiveFailures = 3
-    
-    // Connection failure tracking  
     state.consecutiveCommunicationFailures = 0
-    state.lastSuccessfulCommand = null
-    state.connectionValidationPending = false
-    
-    // Initialize command queue
-    initializeCommandQueue()
-    
-    // Remove old state variables that caused race conditions
-    state.remove("connectionAttempts")
-    state.remove("consecutiveTimeouts")
-    state.remove("connectionInProgress")
-    state.remove("sourceUpdatePending")
-    state.remove("lastCommandTime")
-    
-    initializeSourcePlayingStates()
-    updateConnectionHealth()
-    openConnection()
-}
-
-void initializeCommandQueue() {
-    state.commandQueue = state.commandQueue ?: []
+    state.commandQueue = []
     state.queueProcessing = false
-    sendEvent(name: "commandQueueSize", value: 0)
-    logD "Command queue initialized"
-}
-
-void initializeSourcePlayingStates() {
-    for (int i = 1; i <= 6; i++) {
-        sendEvent(name: "Source ${i} Playing", value: "FALSE")
-    }
-}
-
-void updateConnectionHealth() {
-    def failureCount = state.consecutiveCommunicationFailures ?: 0
-    def maxFailures = settings.maxConnectionFailures ?: 15
     
-    sendEvent(name: "connectionFailures", value: failureCount)
+    // Initialize source playing states
+    initializeSourcePlayingStates()
     
-    if (failureCount >= (maxFailures * 0.8)) {
-        sendEvent(name: "connectionHealth", value: "CRITICAL")
-    } else if (failureCount >= (maxFailures * 0.5)) {
-        sendEvent(name: "connectionHealth", value: "WARNING") 
-    } else if (failureCount > 0) {
-        sendEvent(name: "connectionHealth", value: "RECOVERING")
-    } else {
-        sendEvent(name: "connectionHealth", value: "GOOD")
-    }
-}
-
-void updateSourcePlayingStates() {
-    logD "Updating Source Playing states"
-    
-    if (state.sourceUpdatePending == true) {
-        logD "Source update already pending, skipping"
-        return
-    }
-    
-    state.sourceUpdatePending = true
-    
+    // Clear any existing connection
     try {
-        def activeSources = [:]
-        for (int i = 1; i <= 6; i++) {
-            activeSources[i] = false
-        }
-        
-        for (int zoneNum = 1; zoneNum <= 12; zoneNum++) {
-            def zoneStatus = device.currentValue("Zone ${zoneNum} Status")
-            def zoneSource = device.currentValue("Zone ${zoneNum} Source")
-            
-            if (zoneStatus == "ON" && zoneSource != null) {
-                def sourceNum = zoneSource as Integer
-                if (sourceNum >= 1 && sourceNum <= 6) {
-                    activeSources[sourceNum] = true
-                }
-            }
-        }
-        
-        for (int i = 1; i <= 6; i++) {
-            def newState = activeSources[i] ? "TRUE" : "FALSE"
-            sendEvent(name: "Source ${i} Playing", value: newState)
-            logI "Source ${i} Playing: ${newState}"
-        }
+        closeConnection()
     } catch (Exception e) {
-        logE "Error updating source playing states: ${e.message}"
-    } finally {
-        state.sourceUpdatePending = false
+        logD "Error closing existing connection: ${e.message}"
     }
-}
-
-void scheduleSourceUpdate() {
-    unschedule("updateSourcePlayingStates")
-    runIn(5, "updateSourcePlayingStates")
-}
-
-void uninstalled() {
-    logW "uninstalled"
-    closeConnection()
-}
-
-void refresh() {
-    logI "refreshed"
-    getAllZoneStatus()
-}
-
-def getZoneStatus(def zoneNum) {
-    int zone = zoneNum as Integer
-    logI "Getting status for Zone ${zone}"
-    def formattedZone = String.format("%02d", zone)
-    sendCommand("*Z${formattedZone}CONSR")
-}
-
-def getAllZoneStatus() {
-    logI "Getting status for all zones"
-    for (int i = 1; i <= 12; i++) {
-        def formattedZone = String.format("%02d", i)
-        sendCommand("*Z${formattedZone}CONSR")
-    }
-}
-
-def closeConnection() {
-    try {
-        logD "closing existing connections..."
-        interfaces.rawSocket.close()
-        state.socketConnected = false
-    }
-    catch (Exception e) {
-        logE "error disconnecting from ${settings.serverIp}:${settings.serverPort} - ${e.message}"
-    }
+    
+    // Schedule initial connection
+    runIn(2, "openConnection")
 }
 
 def openConnection() {
-    closeConnection()
+    if (state.socketConnected) {
+        logD "Connection already open"
+        return
+    }
+    
+    logI "Connecting to ${settings.serverIp}:${settings.serverPort} (communication failures: ${state.consecutiveCommunicationFailures ?: 0})"
     
     try {
-        logI "Connecting to ${settings.serverIp}:${settings.serverPort} (communication failures: ${state.consecutiveCommunicationFailures ?: 0})"
+        closeConnection()
+        runIn(1, "establishConnection")
+    } catch (Exception e) {
+        logE "Error in openConnection: ${e.message}"
+        handleCommunicationFailure("Connection setup failed: ${e.message}")
+    }
+}
+
+def establishConnection() {
+    try {
+        logD "closing existing connections..."
+        closeConnection()
+        
+        def connectionString = "${settings.serverIp}:${settings.serverPort}"
+        logD "Establishing telnet connection to ${connectionString}"
+        
+        // Use the Elan driver approach for raw socket connection
         interfaces.rawSocket.connect([eol: '\r'], settings.serverIp, settings.serverPort.toInteger())
         
-        // Start connection validation using real command/response instead of relying on socket status
-        def validationDelay = 3 // Give socket time to establish
-        logD "Scheduling connection validation in ${validationDelay} seconds"
-        state.connectionValidationPending = true
-        runIn(validationDelay, "validateConnection")
+        // Schedule connection validation
+        logD "Scheduling connection validation in 3 seconds"
+        runIn(3, "validateConnection")
         
     } catch (Exception e) {
-        logE "Error connecting to ${settings.serverIp}:${settings.serverPort} - ${e.message}"
-        handleCommunicationFailure("Connection setup failed")
+        logE "Error establishing connection: ${e.message}"
+        handleCommunicationFailure("Connection establishment failed: ${e.message}")
     }
 }
 
 def validateConnection() {
+    if (state.connectionValidationPending == true) {
+        logD "Connection validation already in progress"
+        return
+    }
+    
+    state.connectionValidationPending = true
     logD "Validating connection using real command/response test"
-    state.connectionValidationPending = false
     
     try {
-        // Send a real command to test if communication works
-        // Use zone 1 status query as our validation command  
-        def testCommand = "*Z01CONSR"
-        interfaces.rawSocket.sendMessage(testCommand + "\r")
-        logD "Sent validation command: ${testCommand}"
+        sendCommandImmediate("*Z01CONSR")
         
-        // Schedule validation timeout - if no response in 10 seconds, consider failed
+        // Set timeout for validation
         runIn(10, "connectionValidationTimeout")
         
     } catch (Exception e) {
-        logE "Connection validation failed - cannot send commands: ${e.message}"
-        handleCommunicationFailure("Validation command send failed")
+        logE "Error during connection validation: ${e.message}"
+        state.connectionValidationPending = false
+        handleCommunicationFailure("Connection validation failed: ${e.message}")
     }
 }
 
 def connectionValidationTimeout() {
-    if (state.connectionValidationPending == false) {
-        // We already got a response and cleared this flag
-        return
+    if (state.connectionValidationPending == true) {
+        logW "Connection validation timed out"
+        state.connectionValidationPending = false
+        state.socketConnected = false
+        handleCommunicationFailure("Connection validation timeout")
     }
-    
-    logW "Connection validation timed out - no response to test command"
-    handleCommunicationFailure("Validation timeout - no response")
+}
+
+def closeConnection() {
+    logD "closing existing connections..."
+    try {
+        interfaces.rawSocket.close()
+    } catch (Exception e) {
+        logD "Error closing socket: ${e.message}"
+    }
+    state.socketConnected = false
+    state.connectionValidationPending = false
+    unschedule("connectionValidationTimeout")
 }
 
 def handleCommunicationFailure(String reason) {
@@ -380,6 +304,13 @@ def handleCommunicationFailure(String reason) {
     
     updateConnectionHealth()
     logW "Communication failure #${state.consecutiveCommunicationFailures}: ${reason}"
+    
+    // Stop queue processing to prevent failure loop
+    if (state.queueProcessing) {
+        logW "Stopping command queue processing due to communication failure"
+        state.queueProcessing = false
+        updateQueueStatus()
+    }
     
     // Send notifications for communication issues
     if (settings.enableNotifications && settings.notificationDevice) {
@@ -434,6 +365,20 @@ def resetConnectionFailures() {
             logE "Error sending reset notification: ${e.message}"
         }
     }
+}
+
+def connectionStatus() {
+    def status = [
+        socketConnected: state.socketConnected ?: false,
+        lastResponseTime: state.lastResponseTime ? new Date(state.lastResponseTime).format('HH:mm:ss') : "Never",
+        consecutiveFailures: state.consecutiveCommunicationFailures ?: 0,
+        queueSize: state.commandQueue ? state.commandQueue.size() : 0,
+        queueProcessing: state.queueProcessing ?: false,
+        heartbeatZone: state.heartbeatZone ?: 1
+    ]
+    
+    logI "Connection Status: ${status}"
+    return status
 }
 
 def forceReconnect() {
@@ -572,6 +517,12 @@ def parse(String description) {
         state.socketConnected = true
         logI "Connection established - receiving device responses"
         
+        // Restart queue processing if there are pending commands
+        if (state.commandQueue && state.commandQueue.size() > 0 && !state.queueProcessing) {
+            logI "Restarting command queue processing (${state.commandQueue.size()} commands pending)"
+            processCommandQueue()
+        }
+        
         // Start regular heartbeat monitoring
         def heartbeatDelay = Math.max(settings.heartbeatInterval ?: 25, 15)
         unschedule("checkConnection")
@@ -637,6 +588,12 @@ def parse(String description) {
                             logE "Error sending recovery notification: ${e.message}"
                         }
                     }
+                }
+                
+                // Restart queue processing if there are pending commands
+                if (state.commandQueue && state.commandQueue.size() > 0 && !state.queueProcessing) {
+                    logI "Restarting command queue processing (${state.commandQueue.size()} commands pending)"
+                    processCommandQueue()
                 }
                 
                 // Start heartbeat monitoring
@@ -717,7 +674,10 @@ def setZoneVolume(def zoneNum, def volumeLevel) {
     int zone = zoneNum as Integer
     int userVolume = volumeLevel as Integer
     
-    int nuvoVolume = 79 - (int)((userVolume - 1) * 79 / 99)
+    // Convert user volume (1-100) to Nuvo volume (0-79)
+    // Nuvo: 0=loudest, 79=quietest
+    // User: 1=quietest, 100=loudest
+    int nuvoVolume = (int)((100 - userVolume) * 79 / 99)
     nuvoVolume = Math.max(0, Math.min(79, nuvoVolume))
     
     def formattedZone = String.format("%02d", zone)
@@ -777,258 +737,249 @@ def setAllZoneSource(def sourceNum) {
     logI "Queued source ${source} commands for ${activeZones.size()} active zones"
 }
 
-def clearCommandQueue() {
-    logI "Clearing command queue"
-    state.commandQueue = []
-    state.queueProcessing = false
-    updateQueueStatus()
-}
-
 def sendCommand(String command) {
     if (settings.enableCommandQueue == false) {
-        // Use immediate sending if queue is disabled
         sendCommandImmediate(command)
         return
     }
-    
-    // Add command to queue
     if (!state.commandQueue) {
         state.commandQueue = []
     }
-    
-    state.commandQueue << [
-        command: command,
-        timestamp: now()
-    ]
-    
+    state.commandQueue << [command: command, timestamp: now()]
     updateQueueStatus()
     logD "Queued command: ${command} (Queue size: ${state.commandQueue.size()})"
-    
-    // Start processing if not already running
     if (!state.queueProcessing) {
         processCommandQueue()
     }
 }
 
+def clearCommandQueue() {
+    def queueSize = state.commandQueue ? state.commandQueue.size() : 0
+    logI "Manually clearing command queue (${queueSize} commands)"
+    state.commandQueue = []
+    state.queueProcessing = false
+    updateQueueStatus()
+    logI "Command queue cleared"
+}
+
+def updateQueueStatus() {
+    def queueSize = state.commandQueue ? state.commandQueue.size() : 0
+    sendEvent(name: "commandQueueSize", value: queueSize)
+    logD "Queue status updated: ${queueSize} commands pending"
+}
+
 def processCommandQueue() {
-    if (!state.commandQueue || state.commandQueue.size() == 0) {
+    if (!state.commandQueue || state.commandQueue.isEmpty()) {
         state.queueProcessing = false
         updateQueueStatus()
-        logD "Command queue processing complete - queue empty"
+        logD "Command queue empty - stopping processing"
         return
     }
     
     state.queueProcessing = true
-    def commandData = state.commandQueue.remove(0)
     updateQueueStatus()
     
+    def command = state.commandQueue.remove(0)
+    logD "Processing command: ${command.command}"
+    
     try {
-        // Send the actual command
-        sendCommandImmediate(commandData.command)
-        logD "Sent queued command: ${commandData.command} (${state.commandQueue.size()} remaining)"
+        sendCommandImmediate(command.command)
         
-        // Schedule next command with proper spacing
-        def spacing = Math.max(settings.commandSpacing ?: 1000, 500)  // Minimum 500ms
-        runInMillis(spacing, "processCommandQueue")
+        // Schedule next command processing with spacing
+        def spacing = settings.commandSpacing ?: 500
+        runIn((spacing/1000) as Integer, "processCommandQueue")
         
     } catch (Exception e) {
-        logE "Error processing queued command: ${e.message}"
-        // Continue processing queue even if one command fails
-        def spacing = Math.max(settings.commandSpacing ?: 1000, 500)
-        runInMillis(spacing, "processCommandQueue")
+        logE "Error processing command ${command.command}: ${e.message}"
+        state.queueProcessing = false
+        updateQueueStatus()
+        handleCommunicationFailure("Command processing failed: ${e.message}")
     }
-}
-
-def updateQueueStatus() {
-    def queueSize = state.commandQueue?.size() ?: 0
-    sendEvent(name: "commandQueueSize", value: queueSize)
 }
 
 def sendCommandImmediate(String command) {
     try {
-        if (state.socketConnected != true) {
-            logW "Socket appears to be disconnected, attempting to reconnect before sending command"
-            openConnection()
-            pauseExecution(500)
-        }
-        
-        String msg = formatCommand(command)
-        logD "Sending command immediately: ${command}"
-        interfaces.rawSocket.sendMessage(msg)
-        state.lastSuccessfulCommand = now()
-        pauseExecution(100)
+        logD "Sending command: ${command}"
+        interfaces.rawSocket.sendMessage(command + "\r")
     } catch (Exception e) {
-        logE "Error sending command: ${command} - ${e.message}"
-        state.socketConnected = false
-        handleCommunicationFailure("Command send failed: ${e.message}")
+        logE "Error sending command ${command}: ${e.message}"
+        throw e
     }
-}
-
-def connectionStatus() {
-    def timeoutMinutes = settings.connectionTimeout ?: 30
-    def maxFailures = settings.maxConnectionFailures ?: 15
-    
-    log.info "${device.displayName} connection status: ${state.socketConnected ? 'Connected' : 'Disconnected'}"
-    log.info "Last response received: ${state.lastResponseTime ? new Date(state.lastResponseTime).format('yyyy-MM-dd HH:mm:ss') : 'Never'}"
-    log.info "Last successful command: ${state.lastSuccessfulCommand ? new Date(state.lastSuccessfulCommand).format('yyyy-MM-dd HH:mm:ss') : 'Never'}"
-    log.info "Connection timeout setting: ${timeoutMinutes} minutes"
-    log.info "Consecutive communication failures: ${state.consecutiveCommunicationFailures ?: 0}/${maxFailures}"
-    log.info "Connection validation pending: ${state.connectionValidationPending ?: false}"
-    log.info "Current heartbeat zone: ${state.heartbeatZone ?: 1}"
-    log.info "Command queue enabled: ${settings.enableCommandQueue != false}"
-    log.info "Command queue size: ${state.commandQueue?.size() ?: 0}"
-    log.info "Queue processing: ${state.queueProcessing ?: false}"
-    log.info "Command spacing: ${settings.commandSpacing ?: 1000}ms"
-    log.info "Heartbeat interval: ${settings.heartbeatInterval ?: 25} seconds"
-    log.info "Reconnect interval: ${settings.reconnectInterval ?: 30} seconds"
-    
-    if (state.lastResponseTime) {
-        def lastResponseAge = now() - state.lastResponseTime
-        log.info "Time since last response: ${lastResponseAge/1000} seconds (${lastResponseAge/60000} minutes)"
-        
-        def timeoutMillis = timeoutMinutes * 60 * 1000
-        if (lastResponseAge > timeoutMillis) {
-            log.warn "Response timeout exceeded! (${lastResponseAge/60000} > ${timeoutMinutes} minutes)"
-        } else {
-            log.info "Response timeout status: OK (${lastResponseAge/60000} < ${timeoutMinutes} minutes)"
-        }
-    }
-    
-    // Test connection with real command
-    getZoneStatus(1)
-}
-
-def forceHeartbeat() {
-    logI "Force-starting heartbeat regardless of connection state"
-    state.socketConnected = true
-    state.connectionInProgress = false
-    state.consecutiveTimeouts = 0
-    
-    if (state.heartbeatZone == null) {
-        state.heartbeatZone = 1
-    }
-    
-    logI "Forcing heartbeat start with zone ${state.heartbeatZone}"
-    runIn(1, "checkConnection")
-}
-
-String formatCommand(String command) {
-    return command + "\r"
 }
 
 def parseDeviceResponse(String asciiMessage) {
-    if (asciiMessage == null || asciiMessage.trim() == "") {
+    // Normal response processing continues unchanged
+    state.socketConnected = true
+    sendEvent(name: "lastResponse", value: asciiMessage)
+    
+    // Check for #? error responses from Nuvo
+    if (asciiMessage.startsWith("#?")) {
+        logE "Nuvo error response: ${asciiMessage}"
         return
     }
     
-    try {
-        state.socketConnected = true
-        sendEvent(name: "lastResponse", value: asciiMessage)
-        
-        if (asciiMessage.startsWith("#")) {
-            if (asciiMessage == "#ALLOFF") {
-                logI "All zones turned off"
-                for (int i = 1; i <= 12; i++) {
-                    sendEvent(name: "Zone ${i} Status", value: "OFF")
-                }
-                sendEvent(name: "switch", value: "off")
-                initializeSourcePlayingStates()
-            } else if (asciiMessage.startsWith("#Z")) {
-                def zoneMatch = asciiMessage =~ /#Z(\d+)/
-                if (zoneMatch.find()) {
-                    def zoneNum = zoneMatch.group(1)
-                    logD "Processing response for zone ${zoneNum}: ${asciiMessage}"
-                    
-                    def powerMatch = asciiMessage =~ /PWR(ON|OFF)/
-                    if (powerMatch.find()) {
-                        def powerStatus = powerMatch.group(1)
-                        def displayZone = zoneNum.toInteger()
-                        sendEvent(name: "Zone ${displayZone} Status", value: powerStatus)
-                        
-                        if (zoneNum == "01") {
-                            sendEvent(name: "switch", value: powerStatus.toLowerCase())
-                        }
-                        
-                        logI "Zone ${displayZone} power status: ${powerStatus}"
-                    }
-                    
-                    def sourceMatch = asciiMessage =~ /SRC(\d)/
-                    if (sourceMatch.find()) {
-                        def sourceNum = sourceMatch.group(1).toInteger()
-                        def displayZone = zoneNum.toInteger()
-                        sendEvent(name: "Zone ${displayZone} Source", value: sourceNum)
-                        logI "Zone ${displayZone} source: ${sourceNum}"
-                        scheduleSourceUpdate()
-                    }
-                    
-                    def groupMatch = asciiMessage =~ /GRP(\d)/
-                    if (groupMatch.find()) {
-                        def groupStatus = groupMatch.group(1).toInteger()
-                        def displayZone = zoneNum.toInteger()
-                        sendEvent(name: "Zone ${displayZone} Group", value: groupStatus)
-                        logI "Zone ${displayZone} group: ${groupStatus}"
-                    }
-                    
-                    def volMatch = asciiMessage =~ /VOL-(\d+|MT|XM)/
-                    if (volMatch.find()) {
-                        def volumeLevel = volMatch.group(1)
-                        def displayZone = zoneNum.toInteger()
-                        
-                        if (volumeLevel == "MT") {
-                            sendEvent(name: "Zone ${displayZone} Volume", value: "MUTE")
-                            logI "Zone ${displayZone} volume: MUTE"
-                        } else if (volumeLevel == "XM") {
-                            sendEvent(name: "Zone ${displayZone} Volume", value: "EXT_MUTE")
-                            logI "Zone ${displayZone} volume: EXTERNAL MUTE"
-                        } else {
-                            try {
-                                int nuvoVolume = volumeLevel.toInteger() 
-                                int userVolume = 1 + (int)((79 - nuvoVolume) * 99 / 79)
-                                
-                                sendEvent(name: "Zone ${displayZone} Volume", value: userVolume)
-                                logI "Zone ${displayZone} volume: ${userVolume} (Nuvo value: ${volumeLevel})"
-                            } catch (Exception e) {
-                                sendEvent(name: "Zone ${displayZone} Volume", value: volumeLevel)
-                                logE "Error converting volume: ${e.message}"
-                            }
-                        }
-                    }
-                    
-                    return
-                }
-            } else if (asciiMessage == "#ALLOFF") {
-                logI "All zones turned off"
-                for (int i = 1; i <= 12; i++) {
-                    sendEvent(name: "Zone ${i} Status", value: "OFF")
-                }
-                sendEvent(name: "switch", value: "off")
-                initializeSourcePlayingStates()
-            } else if (asciiMessage == "#EXTMON") {
-                logI "External mute activated"
-            } else if (asciiMessage == "#EXTMOFF") {
-                logI "External mute deactivated"
-            } else if (asciiMessage == "#ALLMON") {
-                logI "All zones muted"
-            } else if (asciiMessage == "#ALLMOFF") {
-                logI "All zones unmuted"
-            } else if (asciiMessage.startsWith("#IRSET")) {
-                logI "IR carrier frequency settings updated"
-            } else if (asciiMessage == "#ALLV+") {
-                logI "All zones volume ramping up"
-            } else if (asciiMessage == "#ALLV-") {
-                logI "All zones volume ramping down"
-            } else if (asciiMessage == "#ALLHLD") {
-                logI "All zones volume ramp halted"
-            } else {
-                logD "Unhandled system response: $asciiMessage"
+    // Handle #ALLOFF response
+    if (asciiMessage == "#ALLOFF") {
+        logI "All zones turned off"
+        for (int i = 1; i <= 12; i++) {
+            sendEvent(name: "Zone ${i} Status", value: "OFF")
+        }
+        sendEvent(name: "switch", value: "off")
+        initializeSourcePlayingStates()
+        return
+    }
+    
+    // Parse zone status responses
+    if (asciiMessage.startsWith("#Z")) {
+        parseZoneStatus(asciiMessage)
+    }
+    
+    // Source playing status is handled by updateSourcePlayingStates() based on zone status
+    
+    // Parse tuner status
+    if (asciiMessage.startsWith("#TUN")) {
+        parseTunerStatus(asciiMessage)
+    }
+}
+
+def parseZoneStatus(String message) {
+    // Parse zone status like #Z01PWRON,SRC3,GRP0,VOL-48
+    def parts = message.split(",")
+    if (parts.length >= 4) {
+        def zonePart = parts[0]
+        def zoneMatch = zonePart =~ /#Z(\d+)/
+        if (zoneMatch.find()) {
+            def zoneNum = zoneMatch.group(1) as Integer
+            
+            // Parse power status
+            def powerStatus = parts[0].contains("PWRON") ? "ON" : "OFF"
+            sendEvent(name: "Zone ${zoneNum} Status", value: powerStatus)
+            
+            // Parse source
+            def sourceMatch = parts[1] =~ /SRC(\d+)/
+            if (sourceMatch.find()) {
+                def sourceNum = sourceMatch.group(1) as Integer
+                sendEvent(name: "Zone ${zoneNum} Source", value: sourceNum)
+                scheduleSourceUpdate()
             }
-        } else if (asciiMessage.startsWith("?")) {
-            logW "Error response received: $asciiMessage"
+            
+            // Parse group
+            def groupMatch = parts[2] =~ /GRP(\d+)/
+            if (groupMatch.find()) {
+                def groupNum = groupMatch.group(1) as Integer
+                sendEvent(name: "Zone ${zoneNum} Group", value: groupNum)
+            }
+            
+            // Parse volume
+            def volumePart = parts[3]
+            if (volumePart.startsWith("VOL-")) {
+                def nuvoVolume = volumePart.substring(4) as Integer
+                // Convert Nuvo volume (0-79) back to user volume (1-100)
+                // Nuvo: 0=loudest, 79=quietest
+                // User: 1=quietest, 100=loudest
+                int userVolume = 100 - (int)(nuvoVolume * 99 / 79)
+                userVolume = Math.max(1, Math.min(100, userVolume))
+                sendEvent(name: "Zone ${zoneNum} Volume", value: userVolume.toString())
+            }
+            
+            logD "Parsed zone ${zoneNum}: ${powerStatus}, Source ${sourceMatch ? sourceMatch.group(1) : 'N/A'}, Volume ${volumePart}"
+        }
+    }
+}
+
+void initializeSourcePlayingStates() {
+    for (int i = 1; i <= 6; i++) {
+        sendEvent(name: "Source ${i} Playing", value: "FALSE")
+    }
+}
+
+void updateSourcePlayingStates() {
+    logD "Updating Source Playing states"
+    
+    if (state.sourceUpdatePending == true) {
+        logD "Source update already pending, skipping"
+        return
+    }
+    
+    state.sourceUpdatePending = true
+    
+    try {
+        def activeSources = [:]
+        for (int i = 1; i <= 6; i++) {
+            activeSources[i] = false
         }
         
+        for (int zoneNum = 1; zoneNum <= 12; zoneNum++) {
+            def zoneStatus = device.currentValue("Zone ${zoneNum} Status")
+            def zoneSource = device.currentValue("Zone ${zoneNum} Source")
+            
+            if (zoneStatus == "ON" && zoneSource != null) {
+                def sourceNum = zoneSource as Integer
+                if (sourceNum >= 1 && sourceNum <= 6) {
+                    activeSources[sourceNum] = true
+                }
+            }
+        }
+        
+        for (int i = 1; i <= 6; i++) {
+            def newState = activeSources[i] ? "TRUE" : "FALSE"
+            sendEvent(name: "Source ${i} Playing", value: newState)
+            logD "Source ${i} Playing: ${newState}"
+        }
     } catch (Exception e) {
-        logE "Error parsing response: ${e.message}"
+        logE "Error updating source playing states: ${e.message}"
+    } finally {
+        state.sourceUpdatePending = false
     }
+}
+
+void scheduleSourceUpdate() {
+    unschedule("updateSourcePlayingStates")
+    runIn(5, "updateSourcePlayingStates")
+}
+
+def parseTunerStatus(String message) {
+    // Parse tuner status responses
+    // This is a placeholder - implement based on actual tuner response format
+    logD "Tuner status: ${message}"
+}
+
+def getZoneStatus(def zoneNum) {
+    int zone = zoneNum as Integer
+    def formattedZone = String.format("%02d", zone)
+    logI "Getting status for Zone ${zone}"
+    sendCommand("*Z${formattedZone}CONSR")
+}
+
+def getAllZoneStatus() {
+    logI "Getting status for all zones"
+    for (int zone = 1; zone <= 12; zone++) {
+        def formattedZone = String.format("%02d", zone)
+        sendCommand("*Z${formattedZone}CONSR")
+    }
+}
+
+def forceHeartbeat() {
+    logI "Manual heartbeat check initiated"
+    checkConnection()
+}
+
+def updateConnectionHealth() {
+    def health = "UNKNOWN"
+    def failures = state.consecutiveCommunicationFailures ?: 0
+    
+    if (failures == 0) {
+        health = "HEALTHY"
+    } else if (failures < 5) {
+        health = "DEGRADED"
+    } else if (failures < 10) {
+        health = "POOR"
+    } else {
+        health = "CRITICAL"
+    }
+    
+    sendEvent(name: "connectionHealth", value: health)
+    sendEvent(name: "connectionFailures", value: failures)
 }
 
 void logD(String msg) {
