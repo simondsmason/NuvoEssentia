@@ -23,11 +23,15 @@ The USR-TCP232-302 device:
    - Configure USR device for TCP Server mode on port 23
    
 2. **Driver Installation:**
-   - Copy the driver code from `nuvo-essentia-driver.groovy`
+   - Copy the driver code from `NuvoEssentia.groovy`
    - In Hubitat web interface, go to "Drivers Code"
    - Click "New Driver" 
    - Paste the code and save
    - Create new device using this driver type
+
+## Diagnostic Tools
+- `SimpleUsrTcpTestDriver.groovy`: Minimal test driver for troubleshooting USR device connectivity
+- Use this driver to verify network connectivity and basic command/response functionality
 
 ## Configuration
 - **Server IP**: IP address of your USR-TCP232-302 device (default: 192.168.0.7)
@@ -55,6 +59,12 @@ The USR-TCP232-302 should be configured as:
 - Any device that can bridge TCP port 23 to RS232 serial
 
 ## Version History
+- v1.16: Fixed source playing status and volume conversion
+  - Reverted to working zone-based source playing logic from v1.10
+  - Fixed volume conversion formula (user 1-100 to Nuvo 0-79)
+  - Removed broken #SRC message parsing
+  - Added proper initialization and #ALLOFF handling
+- v1.15: Fixed critical queue processing bug, added queue restart logic
 - v1.14: Fixed connection state detection, removed connection banning, added notifications
 - v1.13: Added failure counter and notification support
 - v1.12: Improved connection stability
