@@ -58,12 +58,20 @@
  *    version 1.16  @  2025-07-05  -  Fixed source playing status logic; Reverted to working zone-based approach from version 1.10;
  *                                     Removed broken #SRC message parsing; Source playing status now correctly derived from zone status;
  *                                     Added proper initialization and #ALLOFF handling for source playing states
+ *    version 1.17  @  2025-07-07  -  Added volume control commands for all active zones; Renamed setAllZoneSource to setAllActiveZoneSource;
+ *                                     Added raiseAllActiveZonesVolume and lowerAllActiveZonesVolume commands (1-25% range);
+ *                                     Commands only affect zones that are currently ON; Enhanced logging for volume changes;
+ *                                     Suppressed timeout messages to reduce log noise
+ *    version 1.18  @  2025-07-07  -  Fixed command timing issue; Replaced runIn() with pauseExecution() for precise millisecond delays;
+ *                                     Modified raiseAllActiveZonesVolume and lowerAllActiveZonesVolume to queue commands individually;
+ *                                     All commands now respect commandSpacing setting consistently; Improved queue processing reliability;
+ *                                     Enhanced debug logging for command timing and queue status
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.16"
+@Field static final String DRIVER_VERSION = "1.18"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -92,7 +100,9 @@ metadata {
                                  [name: "Volume", type: "NUMBER", description: "Volume level (1-100, higher is louder)"]]
         command "setZoneMute", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"],
                                [name: "State", type: "ENUM", description: "Mute state (ON/OFF)", constraints: ["ON", "OFF"]]]
-        command "setAllZoneSource", [[name: "Source", type: "NUMBER", description: "Source number (1-6) to set for all active zones"]]
+        command "setAllActiveZoneSource", [[name: "Source", type: "NUMBER", description: "Source number (1-6) to set for all active zones"]]
+        command "raiseAllActiveZonesVolume", [[name: "Percentage", type: "NUMBER", description: "Percentage to increase volume (1-25)", constraints: ["1..25"]]]
+        command "lowerAllActiveZonesVolume", [[name: "Percentage", type: "NUMBER", description: "Percentage to decrease volume (1-25)", constraints: ["1..25"]]]
         
         command "getZoneStatus", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"]]
         command "getAllZoneStatus"
@@ -470,7 +480,10 @@ def checkConnection() {
 }
 
 def socketStatus(String status) {
-    logD "Socket status: ${status}"
+    // Suppress timeout messages - they're normal behavior
+    if (status.contains("Read timed out")) {
+        return
+    }
     
     // Be much more conservative about socket status - don't immediately fail on status messages
     // Focus on actual communication success/failure instead
@@ -687,6 +700,116 @@ def setZoneVolume(def zoneNum, def volumeLevel) {
     sendCommand("*Z${formattedZone}VOL${formattedVolume}")
 }
 
+def raiseAllActiveZonesVolume(def percentage) {
+    int percent = percentage as Integer
+    
+    // Validate percentage
+    if (percent < 1 || percent > 25) {
+        logE "Invalid percentage: ${percent}. Must be between 1 and 25."
+        return
+    }
+    
+    logI "Raising volume by ${percent}% for all active zones"
+    
+    def activeZones = []
+    
+    // Find all zones that are currently ON
+    for (int zoneNum = 1; zoneNum <= 12; zoneNum++) {
+        def zoneStatus = device.currentValue("Zone ${zoneNum} Status")
+        if (zoneStatus == "ON") {
+            activeZones.add(zoneNum)
+        }
+    }
+    
+    if (activeZones.isEmpty()) {
+        logI "No zones are currently active - no changes made"
+        return
+    }
+    
+    logI "Found ${activeZones.size()} active zones: ${activeZones.join(', ')}"
+    
+    // Queue volume commands one at a time to ensure proper spacing
+    def volumeCommands = []
+    activeZones.each { zoneNum ->
+        def currentVolume = device.currentValue("Zone ${zoneNum} Volume")
+        if (currentVolume) {
+            int currentVol = currentVolume as Integer
+            int newVolume = Math.min(100, currentVol + percent)
+            
+            logD "Zone ${zoneNum}: ${currentVol}% → ${newVolume}% (+${percent}%)"
+            def formattedZone = String.format("%02d", zoneNum)
+            int nuvoVolume = (int)((100 - newVolume) * 79 / 99)
+            nuvoVolume = Math.max(0, Math.min(79, nuvoVolume))
+            def formattedVolume = String.format("%02d", nuvoVolume)
+            volumeCommands << "*Z${formattedZone}VOL${formattedVolume}"
+        } else {
+            logW "No volume data for zone ${zoneNum} - skipping"
+        }
+    }
+    
+    // Queue commands one at a time to ensure proper spacing
+    volumeCommands.each { command ->
+        sendCommand(command)
+    }
+    
+    logI "Queued volume raise commands for ${volumeCommands.size()} active zones"
+}
+
+def lowerAllActiveZonesVolume(def percentage) {
+    int percent = percentage as Integer
+    
+    // Validate percentage
+    if (percent < 1 || percent > 25) {
+        logE "Invalid percentage: ${percent}. Must be between 1 and 25."
+        return
+    }
+    
+    logI "Lowering volume by ${percent}% for all active zones"
+    
+    def activeZones = []
+    
+    // Find all zones that are currently ON
+    for (int zoneNum = 1; zoneNum <= 12; zoneNum++) {
+        def zoneStatus = device.currentValue("Zone ${zoneNum} Status")
+        if (zoneStatus == "ON") {
+            activeZones.add(zoneNum)
+        }
+    }
+    
+    if (activeZones.isEmpty()) {
+        logI "No zones are currently active - no changes made"
+        return
+    }
+    
+    logI "Found ${activeZones.size()} active zones: ${activeZones.join(', ')}"
+    
+    // Queue volume commands one at a time to ensure proper spacing
+    def volumeCommands = []
+    activeZones.each { zoneNum ->
+        def currentVolume = device.currentValue("Zone ${zoneNum} Volume")
+        if (currentVolume) {
+            int currentVol = currentVolume as Integer
+            int newVolume = Math.max(1, currentVol - percent)
+            
+            logD "Zone ${zoneNum}: ${currentVol}% → ${newVolume}% (-${percent}%)"
+            def formattedZone = String.format("%02d", zoneNum)
+            int nuvoVolume = (int)((100 - newVolume) * 79 / 99)
+            nuvoVolume = Math.max(0, Math.min(79, nuvoVolume))
+            def formattedVolume = String.format("%02d", nuvoVolume)
+            volumeCommands << "*Z${formattedZone}VOL${formattedVolume}"
+        } else {
+            logW "No volume data for zone ${zoneNum} - skipping"
+        }
+    }
+    
+    // Queue commands one at a time to ensure proper spacing
+    volumeCommands.each { command ->
+        sendCommand(command)
+    }
+    
+    logI "Queued volume lower commands for ${volumeCommands.size()} active zones"
+}
+
 def setZoneMute(def zoneNum, def muteState) {
     int zone = zoneNum as Integer
     def formattedZone = String.format("%02d", zone)
@@ -699,7 +822,7 @@ def setZoneMute(def zoneNum, def muteState) {
     }
 }
 
-def setAllZoneSource(def sourceNum) {
+def setAllActiveZoneSource(def sourceNum) {
     int source = sourceNum as Integer
     
     // Validate source number
@@ -738,18 +861,29 @@ def setAllZoneSource(def sourceNum) {
 }
 
 def sendCommand(String command) {
+    def queueTime = now()
+    logD "[QUEUE] sendCommand called at ${queueTime}: ${command}"
+    
     if (settings.enableCommandQueue == false) {
+        logD "[QUEUE] Command queue disabled, sending immediately"
         sendCommandImmediate(command)
         return
     }
+    
     if (!state.commandQueue) {
         state.commandQueue = []
+        logD "[QUEUE] Initialized empty command queue"
     }
-    state.commandQueue << [command: command, timestamp: now()]
+    
+    state.commandQueue << [command: command, timestamp: queueTime]
     updateQueueStatus()
-    logD "Queued command: ${command} (Queue size: ${state.commandQueue.size()})"
+    logD "[QUEUE] Queued command: ${command} (Queue size: ${state.commandQueue.size()}) at ${queueTime}"
+    
     if (!state.queueProcessing) {
+        logD "[QUEUE] Queue not processing, starting processCommandQueue()"
         processCommandQueue()
+    } else {
+        logD "[QUEUE] Queue already processing, command will be processed later"
     }
 }
 
@@ -769,10 +903,28 @@ def updateQueueStatus() {
 }
 
 def processCommandQueue() {
+    // Enhanced debug: Track what's calling this function
+    def caller = new Exception().getStackTrace()
+    def callerInfo = "Unknown"
+    if (caller.length > 1) {
+        def callerMethod = caller[1].getMethodName()
+        def callerClass = caller[1].getClassName()
+        callerInfo = "${callerClass}.${callerMethod}"
+    }
+    
+    def nowTime = now()
+    logD "[QUEUE] processCommandQueue called at ${nowTime} by: ${callerInfo}"
+    
     if (!state.commandQueue || state.commandQueue.isEmpty()) {
         state.queueProcessing = false
         updateQueueStatus()
-        logD "Command queue empty - stopping processing"
+        logD "[QUEUE] Command queue empty - stopping processing"
+        return
+    }
+    
+    // Check if already processing
+    if (state.queueProcessing) {
+        logD "[QUEUE] WARNING: Queue already processing! Called by: ${callerInfo}"
         return
     }
     
@@ -780,17 +932,28 @@ def processCommandQueue() {
     updateQueueStatus()
     
     def command = state.commandQueue.remove(0)
-    logD "Processing command: ${command.command}"
+    logD "[QUEUE] processCommandQueue processing at ${nowTime} (queue size before: ${state.commandQueue.size() + 1}, after: ${state.commandQueue.size()})"
+    if (state.lastCommandSentTime) {
+        def elapsed = nowTime - state.lastCommandSentTime
+        logD "[QUEUE] Time since last command sent: ${elapsed} ms"
+    }
+    logD "[QUEUE] Processing command: ${command.command}"
     
     try {
+        def sendTime = now()
+        logD "[QUEUE] About to send command at ${sendTime}: ${command.command}"
         sendCommandImmediate(command.command)
+        state.lastCommandSentTime = sendTime
+        logD "[QUEUE] Command sent at ${sendTime}, lastCommandSentTime updated"
         
-        // Schedule next command processing with spacing
+        // Schedule next command processing with precise timing
         def spacing = settings.commandSpacing ?: 500
-        runIn((spacing/1000) as Integer, "processCommandQueue")
-        
+        logD "[QUEUE] Pausing for ${spacing} ms before next command"
+        pauseExecution(spacing)
+        logD "[QUEUE] Pause complete, processing next command"
+        processCommandQueue()
     } catch (Exception e) {
-        logE "Error processing command ${command.command}: ${e.message}"
+        logE "[QUEUE] Error processing command ${command.command}: ${e.message}"
         state.queueProcessing = false
         updateQueueStatus()
         handleCommunicationFailure("Command processing failed: ${e.message}")
@@ -799,7 +962,7 @@ def processCommandQueue() {
 
 def sendCommandImmediate(String command) {
     try {
-        logD "Sending command: ${command}"
+        logD "[QUEUE] Sending command at ${now()}: ${command}"
         interfaces.rawSocket.sendMessage(command + "\r")
     } catch (Exception e) {
         logE "Error sending command ${command}: ${e.message}"
