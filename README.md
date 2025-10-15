@@ -16,6 +16,37 @@ The USR-TCP232-302 device:
 - Source playing state tracking
 - Works with USR-TCP232-302 and compatible IP-to-serial converters
 
+## New in v1.19
+
+- **Robust Parsing:** The driver now distinguishes between power state messages and parameter/status messages (Relay, Bass, Treble, Volume Restore). Only messages containing `PWRON` or `PWROFF` update the ON/OFF state. Other messages update their respective attributes without affecting power state.
+- **New Zone Attributes:**
+  - `Zone X Relay` (ON/OFF)
+  - `Zone X EQBass` (Bass EQ, -10 to +10)
+  - `Zone X EQTreble` (Treble EQ, -10 to +10)
+  - `Zone X VolumeRestore` (ON/OFF)
+- **New Commands:**
+  - `setZoneRelay(zone, relayState)` — Set relay ON/OFF for a zone
+  - `setZoneBass(zone, bass)` — Set bass EQ (-10 to +10) for a zone
+  - `setZoneTreble(zone, treble)` — Set treble EQ (-10 to +10) for a zone
+  - `setZoneVolumeRestore(zone, restoreState)` — Enable/disable volume restore for a zone
+- **Unrecognized Responses:**
+  - Any unrecognized zone status message is logged for debugging but does not change the zone's ON/OFF state.
+
+## Usage Examples
+
+- **Set Zone 3 Relay ON:**
+  - `setZoneRelay(3, "ON")`
+- **Set Zone 5 Bass to +6:**
+  - `setZoneBass(5, 6)`
+- **Set Zone 2 Treble to -4:**
+  - `setZoneTreble(2, -4)`
+- **Enable Volume Restore for Zone 7:**
+  - `setZoneVolumeRestore(7, "ON")`
+
+## Notes
+- These commands can be used in Rule Machine, custom apps, or via the device page in Hubitat.
+- The driver will not default a zone to OFF if a response is not recognized; it will simply log the message.
+
 ## Installation
 1. **Hardware Setup:**
    - Connect USR-TCP232-302 to your network
