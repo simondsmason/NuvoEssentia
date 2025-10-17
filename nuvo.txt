@@ -1,0 +1,4533 @@
+Essentia™
+Six-Source, Six-Zone Audio Distribution System
+
+NV-E6DMS/NV-E6DXS Owners Manual
+
+ENGLISH
+
+IMPORTANT SAFETY INSTRUCTIONS
+
+Danger
+Exposure to extremely high noise levels may cause a permanent
+hearing loss. Individuals vary considerably to noise induced hearing
+loss but nearly everyone will lose some hearing if exposed to sufficiently
+intense noise for a sufficient time. The U.S. Government's
+Occupational Safety and Health Administration (OSHA) has specified
+the following permissible noise level exposures:
+
+DURATION PER DAY (HOURS) 8 6 4 3 2 1
+SOUND LEVEL (dB)
+
+90 93 95 97 100 103
+
+According to OSHA, any exposure in the above permissible limits could
+result in some hearing loss. Ear plugs or protectors in the ear canal or over
+the ears must be worn when operating this amplification system in order to
+prevent a permanent hearing loss. If exposure in excess of the limits as
+put forth above, to insure against potentially harmful exposure to high
+sound pressure levels, it is recommended that all persons exposed to
+equipment capable of inducing high sound pressure levels, such as this
+amplification system, be protected by hearing protectors while this unit is in
+operation.
+
+CAUTION
+
+RISK OF ELECTRIC SHOCK
+DO NOT OPEN
+CAUTION: TO REDUCE THE RISK OF ELECTRIC SHOCK, DO
+
+NOT REMOVE CHASSIS. NO USER-SERVICEABLE
+PARTS INSIDE. REFER SERVICING TO QUALIFIED
+SERVICE PERSONNEL.
+
+AVIS: RISQUE DE CHOC ELECTRIQUE-NE PAS OUVRIR.
+THIS SYMBOL IS INTENDED TO ALERT THE USER TO THE PRESENCE
+OF NON-INSULATED "DANGEROUS VOLTAGE" WITHIN THE
+PRODUCT'S ENCLOSURE THAT MAY BE OF SUFFICIENT MAGNITUDE
+TO CONSTITUTE A RISK OF ELECTRIC SHOCK TO PERSONS.
+
+THIS SYMBOL IS INTENDED TO ALERT THE USER TO THE PRESENCE
+OF IMPORTANT OPERATING AND MAINTENANCE (SERVICING)
+INSTRUCTIONS IN THE LITERATURE ACCOMPANYING THE UNIT.
+
+APPARATUS SHALL NOT BE EXPOSED TO DRIPPING OR SPLASHING
+AND THAT NO OBJECTS FILLED WITH LIQUIDS, SUCH AS VASES,
+SHALL BE PLACED ON THE APPARATUS.
+
+1.
+
+Read all safety and operating instructions before using this
+product.
+2. All safety and operating instructions should be kept for future
+reference.
+3. Read and understand all warnings listed on the operating
+instructions.
+4 . Follow all operating instructions to operate this product.
+5. This product should not be used near water, i.e. Bathtub,
+sink,swimming pool, wet basement, etc.
+6. Only use dry cloth to clean this product.
+7. Do not block any ventilation openings, It should not be placed flat
+against a wall or placed in a built-in enclosure that will impede the
+flow of cooling air.
+8. Do not install this product near any heat sources ;such
+as,radiators, heat registers, stove or other apparatus (including
+heat producing amplifiers) that produce heat.
+9. Do not defeat the safety purpose of the polarized or groundingtype plug. A polarized plug has two blades with one wider than the
+0ther.A grounding-type plug has two blades and a third grounding
+prong. The wide blade or the third prong are provided for your
+safety If the provided plug does not fit into your outlet, consult an
+electrician for replacement of the obsolete outlet.
+10. Protect the power cord being walked on or pinched, particularly at
+Plugs, convenience receptacles and the point where they exit
+from the apparatus. Do not break the ground pin of the power
+supply cord.
+11 . Only use attachments specified by the manufacturer.
+12. Use only with the cart, stand, tripod, bracket, or table specified by
+the manufacturer or sold with the apparatus. When a cart is used,
+use caution when moving cart/apparatus combination to avoid
+injury from tip-over.
+13. Unplug this apparatus during lightning storms or when unused for
+long periods of time.
+14. Care should be taken so that objects do not fall and liquids are
+not spilled into the unit through the ventilation ports or any other
+openings.
+15. Refer all servicing to qualified service personnel. Servicing is
+required when the apparatus has been damaged in any way;
+such as, power-supply cord or plug is damaged, liquid has been
+spilled or objects have fallen into the apparatus, the apparatus
+has been exposed to rain or moisture, does not operate normally
+or has been dropped.
+16. WARNING: To reduce the risk of fire or electric shock, do not
+expose this apparatus to rain or moisture.
+
+FRENCH
+
+IMPORTANTES INSTRUCTIONS DE SECURITE
+
+Danger
+L‘exposition a des niveaux eleves de bruit peut provoquer une perte
+permanente de l’audition, Chaque organisme humain reagit
+differemment quant a la perte de l’audition, mais quasiment tout le
+monde subit une diminution de I’acuite auditive lors d’une exposition
+suffisamment longue au bruit intense. Les autorites competentes en
+reglementation de bruit ont defini les expositions tolerees aux niveaux
+de bruits:
+
+DURE EN HEURES PAR JOUR
+
+8 6 4 3 2 1
+
+INIVEAU SONORE CONTINU EN dB
+
+90 93 95 97 100 103
+
+Selon les autorites, toute exposition dans les limites citees ci-dessus,
+peuvent provoquer certaines pertes d’audition. Des bouchons ou
+protections dans l’appareil auditif ou sur l’oreille doivent etre portes lors
+de l’utilisation de ce systeme d’amplification afin de prevenir le risque
+de perte permanente de l’audition, Dans le cas d’expositions
+superieures aux limites precitees il est recommande, afin de se
+premunir contre les expositions aux pressions acoustiquese I evees
+potentielIement dangeure u ses, aux personnes exposees aux
+equipements capables de delivrer de telles puissances, tels ce
+systeme d’amplification en fonctionnement, de proteger l’appareil
+auditif.
+
+ATTENTION
+
+RISQUE DE CHOC ELECTRIQUE
+NE PAS OUVRIR.
+
+ATTENTION: AFIN DE LlMlTER LE RISQUE DE CHO ELECTR/QUE, NE
+
+PAS ENLEVER LE CHASSIS. NE CONTIENT PAS DE
+PIECES POUVANT ETRE REPAREE PAR L’UTILISATEUR.
+CONFER LE SERVICE APRES-VENTE AUX
+REPARATEURS
+
+CE SYMBOLE A POUR BUT D'AVERTIR L'UTILISATEUR DE LA PRESENCE
+DE VOLTAGE DANGEREUX NON-ISOLE A L'INTERIEUR DE CE PRODUIT
+QUI PEUT ETRE DE PUISSANCE SUFFISAMMENT IMPORTANTE POUR
+PROVOQUER UN CHOC ELECTRIQUE AUX PERSONNES.
+CE SYMBOLE A POUR BUT D'AVERTIR L'UTILISATEUR DE LA PRESENCE
+D'INSTRUCTIONS D'UTILISATION ET DE MAINTENANCE DANS LES
+DOCUMENTS FOURNIS AVEC CE PRODUIT.
+
+AFIN DE REDUIRE LES RISQUÉ D'INCENDIE ET DE DECHARGE
+ELECTRIQUE, NE PAS EXPOSER CET APPAREIL A LA PLUIE OU A
+L'HUMIDITE.
+
+1. Lire avec attention toutes les recommandations et précautions
+d'emploi avant d'utiliser ce produit.
+2. Toutes les recommandations et précautions d'emploi doivent être
+conservées afin de pouvoir s'y reporter si nécessaire.
+3. Lire et comprendre tous les avertissements énumérés dans les
+précautions d'emploi.
+4. Suivre toutes les précautions d'emploi pour utiliser ce produit.
+5. Ce produit ne doit pas être utilisé près d'eau, comme par exemple
+baignoires, éviers, piscine, sous-sol humides ... Etc.
+6. Utiliser exclusivement un chiffon sec pour nettoyer ce produit.
+7. Ne bloquér aucune ouverture de ventilation. Ne pas placer le
+produit tout contre un mur ou dans une enceinte fern ée, cela
+gênerait le flux d'air nécessaire au refroidissement.
+8. Ne pas placer le produit près de toute source de chaeur telle que
+radiateurs, arrivées d'air chaud, fourneaux ou autres appareils
+générant de la chaleur (incluant les amplificateurs producteurs
+de chaleur) .
+9. Ne pas négliger la sécurité que procure un branchement polarisé
+ou avec raccordement à la terre, Un branchement polarisé
+comprend deux fiches dont l'une est plus large que l'autre. Un
+branchement à la terre comprend deux fiches plus une troisième
+reliée à la terre. Si la fiche secteur fournie ne s'insert pas dans
+votre prise de courant. consulter un 'électricien afin de remplacer
+votre prise obsolète.
+10. Protéger le cordon d'alimentation de tout écrasement ou
+pincement, particulièrement au niveau des fiches, des
+réceptacles utilisés et à l'endroit de sortie de l'appareil. Ne pas
+casser la fiche de terre du cordon d'alimentation.
+11. Utiliser uniquement les accessoires spécifiés par le constructeur.
+12. Utiliser uniquement avec le chariot de transport, le support, le
+trépied, la console ou la table spécifiés par le constructeur ou
+vendus avec l'appareil. Lors de l'utilisation d'un chariot, bouger
+avec précaution l'ensemble chariotlappareil afin d'éviter les
+dommages d'un renversement.
+13 Débrancher cet appareil lors d'orages ou s'il n'est pas utilisé
+pendant une longue période.
+14. Des précautions doivent être prises afin qu'aucun objet ne tombe
+et qu'aucun liquide ne se répande à l'intérieur de l'appareil par
+les orifics de ventilation ou n'importe quelle autre ouverture.
+15. Pour toutes interventions techniques s'adresser à un technicien
+qualifié.L'intervention technique est nécessaire lorsque l'appareil
+a été endommagé de n'importe quelle façon, comme par
+exemple si le cordon secteur ou sa fiche sont détériorés,si du
+liquide a coulé ou si des objets sont tombés à l'intérieur de
+l'apparei1,si l'appareil a été exposé à la pluie ou à l'humidité, s'il
+ne fonctionne pas normalement ou s'il est tombé.
+16. ATTENTI0N:Pour réduire le risque d'incendie ou de choc
+electrique ne pas exposer l'appareil à la pluie ou à l'humidité.
+
+Essentia
+Six-Source, Six-Zone Audio Distribution System
+
+NV-E6DMS/NV-E6DXS Owners Manual
+Introduction
+Congratulations on your purchase of the NuVo Essentia audio distribution system. Essentia offers the newest in
+digital audio technology in an attractive, easy-to-install, and simple-to-use package. Generation D digital amplification means that Essentia is able to create clear, precise sound without producing a large amount of heat.
+Because digital amplification is far more efficient, Essentia draws only one third of the power of conventional
+analogue amplifiers.
+The Essentia system is designed for the homeowner. Its attractive backlit keypads are elegant, easy-to-operate,
+and able to be customized for any installation. Included with each keypad are white, ivory, and almond cover
+plates to best match your home’s décor. Also included with each keypad are twenty preprinted audio source buttons for customizing your system for your use.
+Using the Essentia is as easy as the push of a button. Each listening zone can be turned on or off independently,
+or all zones can be turned off simultaneously by using the "ALL OFF" button at any one of the keypads.
+Individual volume control for each zone is also as easy as the push of a button.
+The built-in IR receiver allows for direct access to all of your audio source equipment by utilizing the individual
+audio component’s hand-held remote, or you can also enjoy the convenience of having all of the commands of
+your audio source equipment in one universal learning remote. The RC2 remote control shipped with the
+Essentia package is the perfect tool for teaching learning remotes functions of the Essentia keypads. This puts
+complete control of your NuVo system in the palm of your hand.
+The following pages of this manual provide step-by-step instructions for installing your Essentia System.
+Reading and understanding this installation guide will insure a proper installation and years of audio enjoyment.
+
+4
+
+Zone/Room 1
+
+Zone/Room 2
+
+Zone/Room 4
+
+Zone/Room 5
+
+VOLUME
+
+VOLUME
+
+ON
+OFF
+
+Zone/Room 3
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+ON
+OFF
+
+VOLUME
+
+VOLUME
+
+VOLUME
+
+ALL
+OFF
+
+ON
+OFF
+
+ALL
+OFF
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+ALL
+OFF
+
+ON
+OFF
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+ON
+OFF
+
+ALL
+OFF
+
+Zone/Room 6
+
+VOLUME
+
+ALL
+OFF
+
+ON
+OFF
+
+ALL
+OFF
+
+CD1
+
+CD2
+
+CD1
+
+CD2
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR1
+
+TNR2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+TNR3
+
+SAT
+
+TNR3
+
+SAT
+
+EZ Port Cat-5
+connection
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+C C C
+
+MODEL NV-P2100
+HIGH EFFICIENCY 200 WATT
+STEREO AMPLIFIER
+
+120V
+
+60HZ 250 WATTS
+
+NuVo Technologies Cincinnati Ohio. USA
+
+AUDIO
+
+SPEAKER
+
+CONTROL
+CONTROL
+
+USE ONLY WITH 250V FUSE
+
+L
+
+SENSITIVITY
+OdBV = 1.0RMS
+
+INPUT
+2
+
+POWER
+MODE
+ON/OFF SWITCH
+AUDIO AC/DC
+
+RIGHT
+0
+
+LEFT
+0
+
+VOLTAGE UNIT
+TRIGGER ON
+3-30 VOLTS
+AC OR DC
+
++12VDC
+100mA
+
+OUTPUT POWER
+8 OHM: 70W X 2
+4 OHM: 100W X 2
+
+R
+-12
+
++6
+
+INPUT
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+2
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 2
+3
+
+4
+
+5
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 3
+6
+
+CONNECT TO
+NV-I8X
+
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 4
+1
+
+3
+
+RS-232
+
+OUTPUT POWER
+20W/6OHM X2
+
+ZONE 6
+5
+
+1
+
+3
+
+PROGRAM
+5
+
+SUM1
+
+SYS ON
+
+CONNECT TO
+NV-I8EZP1
+USE NV-NC1
+CABLE
+
+USE NV-SLC1
+CABLE
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+SOURCE LINK
+
+SOURCE INPUTS
+
+Source 1
+Tuner 1
+
+5
+
+Audio
+Out
+
+Source 2
+Tuner 2
+
+Source 3
+Tuner 3
+
+Audio
+Out
+
+2
+
+4
+
+6
+
+2
+
+Source 4
+CD 1
+
+4
+
+6
+
+EMITTER OUTPUTS
+
+ZONE TRIGGER OUTPUTS
+
+Audio
+Out
+
+Diagram shown with optional NuVo
+NV-P2100 auxiliary amplifier powering
+zone 6.
+
+FIXED
+OUTPUT
+
+ZONE 5
+1
+
+-12
+
+OUTPUT
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+FIXED
+OUTPUT
+
++6
+
+Single Network cable
+connection to the
+Essentia Amplifier
+
+SUM2
+
+CONNECT TO
+NV-I8X
+USE NV-SLC1
+CABLE
+
+R
+
+EXT. MUTE
+
+SYSTEM
+
+NETWORK
+
+Source 5
+CD 2
+
+Audio
+Out
+
+Audio
+Out
+
+Source 6
+Sat.
+
+5
+
+DIGITAL LINK
+
+Audio
+Out
+
+Essentia D
+Wiring Diagram
+
+Quick Start Guide
+Your Essentia Audio Distribution System is quick and easy to install. This guide outlines the necessary steps for
+an accurate and successful installation, and years of audio enjoyment.
+Step 1:
+Check your package for all of the components. Your box should contain the following items:
+1
+NV-E6DMS 6-source, 6-zone digital audio distribution amplifier
+6
+NV-E6DKPC keypads, with 1 bag of preprinted source buttons, ivory, and almond
+replacement keypad inserts for each
+1
+NV-RC2 remote control with batteries
+1
+NV-NEC 10 foot network cable
+1
+NV-E6DEZP EZ Port connection hub
+6
+NV-VEC IR emitters
+1
+AC power cord
+1
+Installation manual
+Step 2:
+Place the Essentia amplifier in its preferred location. The Essentia amplifier is designed to be located in the central media area where the home’s audio sources will be housed.
+Step 3:
+The Essentia amplifier should be turned on before any other cables are plugged in. This activates internal protective circuitry. Once the Essentia amplifier is turned on, it should be left on.
+Step 4:
+When the amplifier is in its location and turned on, the audio sources can be connected using stereo RCA cables.
+These cables connect the left and right channels from the audio output of the source equipment to the appropriate source input on the Essentia amplifier. The IR (infrared) emitters should be plugged into the IR outputs on
+the back of the amplifier and attached to the IR window of the corresponding source equipment.
+Step 5:
+Each of the Cat-5 cables from the zones should be crimped with an RJ-45 connector using 568A or 568B wiring
+(see page for Cat-5 crimping instructions). Test each Cat-5 connection using a cable tester before proceeding
+with the installation. Each cable plugs into one of the RJ-45 connection jacks on the back of the supplied EZ Port.
+It is important for future reference to label each cat-5 cable for its appropriate listening zone. The order in which
+they are plugged into the EZ Port is irrelevant to the system’s operation.
+Step 6:
+Install the EZ Port in a standard dual gang low voltage bracket. We recommend the Carlon SC100R "Old Work
+Bracket", or the SC100A "New Construction Bracket". These are designed for low voltage electronics and have an
+open back for easy access to the back of the EZ Port.
+
+6
+
+Step 7:
+Connect the provided pre-terminated network Cable in the RJ-45 connection jack on the front of the EZ Port and
+in the Network Connection on the back of the Essentia amplifier.
+Step 8:
+Each zone is easily set using the DIP switches located on the back of the keypad. Switches 1-4 are used to set a
+unique address for each zone and are noted with a "1" indicating the down position of the switch and a "O" indicating the up position. Refer to the chart on the back of the keypad for the correct switch position for each zone.
+Page 17 provides a visual reference of all of the available switch settings.
+Step 9:
+Switches 5, 6, & 7 are used to adjust the amount of bass and treble response in each zone. There are eight possible settings. The choices are a bass and treble boost, two levels of bass boost, two levels of treble boost, bass cut,
+treble cut, or flat. The positions for these settings are also shown as "1" for down and "O" for up and are shown on
+page 18.
+Step 10:
+Switch 8 allows multiple zones to share the same source. This is useful for large living spaces such as a kitchen,
+breakfast nook, and dinning room where there are no walls defining each room. When switch 8 is in the up "O"
+position, all keypads with the same setting will then always turn on at the same source. This does, however,
+allow individual volume and on/off control. This setting is shown on page 18.
+Step 11:
+Switch 9 sets the volume level when the zone is turned on. The choices are to have the zone turn on at the same
+level it was at when it was previously turned off (switch 9 in the down "1" position), or to turn on at a low volume
+level (switch 9 in the up "O" position). This setting is shown on page 19.
+Step 12:
+Once the desired switch settings have been made for each keypad and they have been installed in their zone locations, you will be able to turn each zone on and off, control volume, and choose audio sources independently.
+These functions can also be done wirelessly using the NuVo RC2 remote control. The built-in IR receiver in each
+keypad also allows for direct control of the audio source equipment using that equipment’s remote control or a
+universal learning remote control.
+
+7
+
+Essentia
+Amplifier Front Panel
+
+POWER
+
+1
+
+STAND BY
+
+2
+
+ZONE 1
+
+ZONE 2
+
+ZONE 3
+
+ZONE 4
+
+ZONE 5
+
+ZONE 6
+
+3
+
+1.
+
+POWER Button:
+
+The amplifier is designed to be turned on and remain on. The power button
+supplies power to the system. Each zone can then be turned on or off
+independently. The amplifier should be turned on before any external connections are made. This activates internal protective circuitry. With all the zones
+turned off the resulting "standby" power consumption is extremely low.
+
+2.
+
+STAND BY LED:
+
+3.
+
+Zone Status LED’s:
+
+This blue LED (light-emitting diode) will indicate that the amplifier is plugged
+in to an AC outlet source.
+These LED’s indicate the power status of each zone. When a zone LED is lit,
+that zone is currently turned on.
+
+8
+
+Essentia
+Amplifier Back Panel
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+2
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+4
+
+5
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 2
+3
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+ZONE 3
+6
+
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+FIXED
+OUTPUT
+
+ZONE 4
+1
+
+1
+
+3
+
+RS-232
+
+OUTPUT POWER
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 6
+
+ZONE 5
+
+CONNECT TO
+NV-I8X
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+5
+
+1
+
+3
+
+PROGRAM
+5
+
+SUM1
+
+SYS ON
+
+USE NV-NC1
+CABLE
+
+USE NV-SLC1
+CABLE
+
+1
+
+2
+
+3
+
+4
+
+5
+
+5
+
+6
+
+SOURCE LINK
+
+SOURCE INPUTS
+
+1
+
+2
+
+CONNECT TO
+NV-I8EZP1
+
+2
+
+4
+
+6
+
+2
+
+3 4
+
+5
+
+6
+
+4
+
+6
+
+EMITTER OUTPUTS
+
+ZONE TRIGGER OUTPUTS
+
+7
+
+SUM2
+
+CONNECT TO
+NV-I8X
+USE NV-SLC1
+CABLE
+
+R
+
+EXT. MUTE
+
+SYSTEM
+
+NETWORK
+
+DIGITAL LINK
+
+8 9 10 11 12
+
+13
+
+1.
+
+Audio Source Inputs:
+
+The Essentia amplifier accepts up to six audio sources. A source consists of any
+audio component capable of supplying a line level signal.
+
+2
+
+Source Link:
+
+This multi-pin connection is used to transfer the audio information from the
+Essentia main amplifier to the expander amplifier. This output is used along with
+the Digital Link (11) to expand the system to twelve zones. The source link connection cable is provided with the Essentia D Expander package.
+
+3.
+
+Variable Lineout:
+
+The variable lineout is intended for zones where additional amplification is needed
+and the Essentia keypad is used to control the volume of all the speakers in that
+zone.
+
+4.
+
+Fixed Line Out:
+
+The fixed lineout is intended for zones where additional amplification and separate
+volume control are needed.
+
+5.
+
+Speaker Outputs:
+
+Individual stereo speaker outputs for each zone provide 20 watts output per channel.
+
+6.
+
+Zone Triggers:
+
+These outputs provide a 12-volt output when the corresponding zone is turned on.
+This is used to trigger external equipment specific to a given zone.
+
+7.
+
+Emitter Outputs:
+
+These outputs transfer IR (infra red) signals, repeated from a zone keypad, from the
+Essentia amplifier to the audio source equipment. There are six source specific outputs and two "sum" output that sends IR signals regardless of the selected source.
+
+8.
+
+System On:
+
+This output provides a constant 12-volt output when any zone is turned on. This is
+used to trigger external devices.
+
+9.
+
+External Mute:
+
+This is designed to mute any audio playing through the system when the phone or
+doorbell rings.
+
+10.
+
+Network Input:
+
+This RJ-45 connection is the input for all zone information coming from the
+Essentia keypads. The connection is made using the Network Cable supplied with
+the package.
+
+11.
+
+Digital Link:
+
+This multi-pin connection transfers all the digital information from the main amplifier to the expander amplifier. This output is used along with the Source Link (2) to
+expand the system from six to twelve zones. The Digital Link connection cable is
+provided with the Essentia D Expander package.
+
+12.
+
+RS232 Port:
+
+The RS232 serial port allows two-way communication for control by a home automation system.
+
+13.
+
+AC:
+
+A detachable power cord connects the system to an external AC power supply.
+
+9
+
+Essentia
+Keypad
+
+1
+
+VOLUME
+
+2
+3
+4
+
+ON
+OFF
+
+ALL
+OFF
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+5
+6
+7
+
+1.
+
+Volume Indicator:
+
+These LED’s (light emitting diodes) indicate the zones volume level. The lit
+LED travels to the right as the volume level is increased and to the left as it is
+decreased.
+
+2.
+
+Volume Buttons:
+
+These buttons control the zone’s volume level up and down. They also serve
+as the window for receiving IR commands from a remote control.
+
+3.
+
+ON/OFF:
+
+This turns the individual zone on or off.
+
+4.
+
+Source Selectors:
+
+These buttons select the desired audio source. Once selected that source button remains a backlit green until a new source is selected or the zone is
+turned off. Each keypad ships with 36 preprinted source buttons.
+
+5.
+
+ALL OFF:
+
+This turns all the zones off simultaneously.
+
+6.
+
+Keypad Insert:
+
+Each of the Essentia keypads ship with white, ivory and almond color replaceable Decora style inserts.
+
+7.
+
+RJ-45 connection:
+
+Each keypad is connected to the Essentia amplifier via a Cat-5 wire and an
+RJ-45 connection.
+
+10
+
+Essentia
+RC2 Remote Control
+1
+2
+3
+
+TUNER 1
+
+TUNER 2
+
+TUNER 3
+
+MULTI
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+NUM
+
+0
+
+MEM
+
+OFF
+
+ON
+
+MON
+
+ST
+
+AM
+
+FM
+
+4
+
+ALL OFF
+
+ON- OFF
+
+_
+
++
+
+_
+
++
+TUNER
+
+5
+
+VOL
+
+VOL
+
+MULTI
+ROOM
+
+6
+
+NV-RC2
+
+1.
+
+IR Emitter:
+
+Use the RC2 remote’s IR emitter to directly control the Essentia System or to
+teach the system control functions to any learning remote control.
+
+2.
+
+Device Selectors:
+
+This allows you to easily switch between the NuVo Essentia System and any
+of the NuVo Tuners.
+
+3.
+
+Source Selectors:
+
+Change sources wirelessly.
+
+4.
+
+ALL OFF Button:
+
+Turn off all the system keypads via IR command.
+
+5.
+
+Zone ON/OFF Button: Individual zones may be turned on or off via IR.
+
+6.
+
+Volume Button:
+
+Allows wireless control of the zone’s volume level.
+
+11
+
+Pair 2
+
+V
+d
+
+G
+ro
+
+Pl
+us
+
+un
+
+IR
+
+Si
+gn
+
+12
+
+B
+us
+a
+al
+
+B
+us
+
+lD
+at
+
+Se
+
+ria
+
+lD
+at
+
+d
+
+The correct wiring scheme for the Cat-5 wire is standard EIA/TIA 568A, which is the industry standard for
+computer networking. Properly terminating the Cat-5
+wire is crucial for the operation of the system. It is
+very important to use a good quality crimp tool, and
+testing each termination with a Cat-5 wire tester will
+insure that your system operates flawlessly.
+
+2
+
+ria
+
+un
+
+1
+
+Se
+
+The NuVo audio systems require Cat-5, unshielded,
+twisted pair (UTP), for communication between the
+keypads and the main amplifier unit. Each end of the
+wire is terminated with an RJ45 connector.
+
+G
+ro
+
+I. Complete Crimping Instructions
+for Cat-5 (Fig. 1)
+
+a
+
+-
+
++
+
+Installing Essentia in Your Home
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+Pair 1
+
+Pair 4
+
+Pair 3
+
+Fig. 1: CAT-5 568A wiring scheme
+Pin #
+1. Green Stripe
+2. Green
+3. Orange Stripe
+4. Blue
+5. Blue Stripe
+6. Orange
+7. Brown Stripe
+8. Brown
+
+Step-by-Step Crimping Instructions
+
+1. Strip a 2 to 3 inch portion of the insulation, exposing the 4 twisted pairs.
+2. Untwist the wires and fan them out individually.
+Arrange the wires into the correct color scheme.
+Note that each of the wires is either a solid color, or
+a white wire with a colored stripe. The colors are
+green, orange, blue, and brown. The colors need to
+Note: Colors listed as “Stripe” are a white wire with a colbe in the order shown in Fig. 1.
+ored stripe. In other words, Orange Stripe is a white wire
+3. Flatten the wires in their correct order, and trim
+with orange stripes.
+them evenly across the top. Most crimp tools have a
+wire trimmer built-in. It is best to trim the wires to
+about 1/2" in length.
+4. While holding the wires flat between your thumb
+and forefinger, insert the wires into the RJ45 connector, so each wire is in its own slot. Push the wire
+into the RJ45, so all 8 conductors touch the end of
+the connector. The insulation jacket should extend
+beyond the crimp point of the RJ45.
+5. Insert the RJ45 into the crimp tool receptacle and
+Step 2
+Step 1
+Step 3
+squeeze the tool firmly. Note that a ratchet type tool
+should tighten down until it no longer clicks.
+6. The RJ45 should be firmly crimped to the Cat-5 insulation. It is necessary that the color scheme be
+repeated identically on each end of the wire.
+Step 4
+
+12
+
+Step 5
+
+Step 6
+
+II.
+
+Installing the Essentia Amplifier
+
+System setup works best when the amplifier is placed
+in the same location as the audio source equipment.
+This is typically in an audio rack, entertainment center
+or a closet dedicated to housing the home audio/video
+equipment.
+The amplifier should be plugged in and the power button on the front panel should be depressed before proceeding with the rest of the installation. This activates
+the internal protective circuitry of the Essentia
+System.
+
+III. Installing the NV-E6DEZP EZ
+Port (Fig. 2)
+The EZ Port is a multi-connection hub designed to
+accept all the Cat-5 wires from the keypads in the system. The location of the EZ Port should be determined
+by the location of the Essentia amplifier. It is best to
+place in the wall behind the amplifier that would be
+easily accessible if necessary.
+The EZ Port fits easily in any dual-gang size construction bracket with an open back. These are often
+referred to as "mud rings". Simply plug the terminated
+Cat-5 wires into any of the sixteen available jacks on
+the back of the EZ Port. The order in which the individual Cat-5 wires is plugged in not important, although it
+is strongly recommended that you label the Cat-5 with
+the appropriate zone number for future reference.
+
+Fig. 2
+
+Once you have plugged the Cat-5 wires into the EZ
+Port, screw the EZ Port into its construction bracket
+using the supplied mounting screws.
+
+13
+
+IV. Connecting the EZ Port to the
+Essentia amplifier (Fig. 3)
+
+EZ Port
+
+Essentia Network
+Connection
+PROGRAM
+SYS ON
+
+CONNECT TO
+NV-I6EZP1
+USE NV-NC1
+CABLE
+
+When the EZ Port is installed in the wall the only part
+visible should be the faceplate and a single RJ-45 jack.
+The supplied pre-terminated network cable can then be
+plugged into the jack on the EZ Port and into the network connection on the back of the Essentia amplifier,
+Any Cat-5 cable terminated using 568A or 568B network wiring will suffice should you need a longer connection.
+
+CONNECT TO
+NV-I6X
+USE NV-SLC1
+CABLE
+
+EXT. MUTE
+
+SYSTEM
+
+NETWORK
+
+DIGITAL LINK
+
+Network Cable
+
+Fig. 3
+
+V. Attaching Audio Source
+Equipment to the Essentia
+Amplifier (Fig. 4)
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+2
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+ZONE 2
+3
+
+4
+
+5
+
+FIXED
+OUTPUT
+
+ZONE 3
+6
+
+CONNECT TO
+NV-I8X
+USE NV-SLC1
+CABLE
+
+Each piece of audio source equipment is connected to
+the Essentia amplifier with standard stereo RCA
+cables. Attach the RCA cable to the corresponding
+audio output on the source equipment and to the
+desired source input on the back of the Essentia amplifier.
+
+1
+
+2
+
+3
+
+4
+
+5
+
+Source 1
+Tuner 1
+
+Fig. 4
+
+14
+
+6
+
+SOURCE LINK
+
+SOURCE INPUTS
+
+Audio
+Out
+
+OUTPUT POWER
+20W/6OHM X2
+
+VI. Connecting the IR Emitters
+(Fig. 5)
+
+Fig. 5
+
+IR commands for the source equipment are transferred
+from the Essentia amplifier to the source equipment
+via mini IR mouse emitters. Six of these are supplied
+with your Essentia System. The emitter is plugged
+into the corresponding source IR output on the
+Essentia and then placed over the IR receiver window
+on the source component. The IR outputs are individually routed to sources 1-6.
+The two SUM outputs will flash any IR command that
+is sent from any of the zones. This is used to connect
+the NuVo T3 Tuner to the Essentia System or an IR
+blaster designed to flash IR commands to a variety of
+components. This is done by plugging a single mono
+1/8" patch cable into the SUM IR output and into the
+Direct IR input on the T3.
+
+VII. Expanding Essentia to 12 Zones
+(Fig. 6)
+
+Fig. 6
+VARIABLE
+OUTPUT
+
+Six additional listening zones can be added to the
+Essentia System using the Essentia Expander package.
+The expansion is easily done using the Source Link
+and Digital Link multi-pin outputs on the Essentia
+main amplifier.
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 71
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 8
+
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+ZONE 9
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 10
+
+CONNECT TO
+NV-I8X
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+1
+
+8
+
+10
+
+11
+
+20W/6OHM X2
+
+ZONE 12
+
+ZONE 11
+7
+
+OUTPUT POWER
+
+FIXED
+OUTPUT
+
+9
+
+CONNECT TO
+NV-I8X
+
+USE NV-SLC1
+CABLE
+
+USE NV-SLC1
+CABLE
+
+5
+
+SOURCE LINK
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+The necessary cables for this are supplied with the
+Expander package. No other connections are necessary
+with the exception of the AC power cord and the additional speaker terminations. The additional Cat-5
+wires for the zones 7-12 plug into the EZ Port.
+
+15
+
+2
+
+ZONE 2
+3
+
+4
+
+5
+
+ZONE TRIGGER OUTPUTS
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+FIXED
+OUTPUT
+
+ZONE 3
+6
+
+R
+
+12
+
+CONNECT TO
+NV-I8X
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+20W/6OHM X2
+
+TIP=L
+RING=R
+
+DIGITAL LINK
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 4
+1
+1
+
+2
+
+RS-232
+
+OUTPUT POWER
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 6
+
+ZONE 5
+3
+
+1
+
+2
+
+PROGRAM
+3
+
+SUM1
+
+SYS ON
+
+1
+
+2
+
+3
+
+4
+
+SOURCE INPUTS
+
+5
+
+5
+
+6
+
+SOURCE LINK
+
+CONNECT TO
+NV-I8EZP1
+USE NV-NC1
+CABLE
+
+USE NV-SLC1
+CABLE
+
+4
+
+5
+
+6
+
+ZONE TRIGGER OUTPUTS
+
+4
+
+5
+
+6
+
+EMITTER OUTPUTS
+
+SUM2
+
+CONNECT TO
+NV-I8X
+USE NV-SLC1
+CABLE
+
+R
+
+EXT. MUTE
+
+SYSTEM
+
+NETWORK
+
+DIGITAL LINK
+
+VIII. Installing the Essentia keypads
+(Fig. 7)
+Fig. 7: Keypad DIP switch chart
+You are now ready to install the keypads and complete
+the Essentia installation. This is easily done using a
+series of DIP switches on the back of the keypad. A
+chart on the back of the keypad shows each switch’s
+function, and the setting options.
+See page 17 for instructions on how to properly set the
+nine DIP switches on each keypad.
+
+NuVo
+SW#
+1000
+
+1
+
+SW#
+5,6,7
+000
+
+1,2,3,4
+
+ZN#
+
+EQ
+
+SW#
+8
+
+SRC
+GRP
+
+SW#
+
+VOL.RST
+
+9
+
+@ZN OFF
+
+B,T+4
+
+0
+
+ON
+
+0
+
+ON
+
+1
+
+OFF
+
+1
+
+OFF
+
+0100
+
+2
+
+100
+
+TRB+8
+
+1100
+
+3
+
+010
+
+TRB+4
+
+110
+
+0010
+
+4
+5
+
+001
+
+TRB-4
+BAS+8
+
+SW1-4 SETS ADDRESS
+
+1010
+0110
+
+6
+
+101
+
+BAS +4
+
+SW8 SETS GROUP ON/OFF
+
+1110
+
+7
+
+011
+
+BAS-4
+
+0001
+
+8
+
+111
+
+FLAT
+
+1001
+
+9
+
+0101
+
+10
+
+1101
+
+11
+
+0011
+
+12
+
+1011
+
+1b
+
+0111
+
+2b
+
+1111
+
+3b
+
+0000
+
+4b
+
+UP
+
+0
+
+DOWN
+
+1
+
+SW5-7 SETS EQ
+SW9 SETS VOL. RST.
+
+"1" IS DOWN
+www.nuvotechnologies.com
+NV-E6DKYP
+E6D KEYPAD
+
+BLACK
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+RED
+
+TO NV-LSI24
+
+16
+
+Fig. 8: Keypad Zone Address Switch Settings
+
+IX. Setting the Zone Address DIP
+Switches (Fig. 8)
+
+Zone 1
+
+The first four switches on the keypads are designed to
+create a specific binary address identifying each zone
+to the amplifier. Setting each zone address is easy, but
+it is important to note that each keypad must have its
+own unique setting.
+Each switch can either be placed in an up or down position. The chart on each keypad indicates the switch
+position using a "1" for the switch in its down position,
+and "0" for the switch in its up position. Thus, the setting for Zone 1 is 1000, or switch #1 in the down position and switches #2-4 in the up position.
+Once each keypad is set for its zone, you should be able
+to control volume, change the source selection, and
+turn the zone on or off. The corresponding zone LED
+on the face of the amplifier will turn on when the zone
+keypad is turned on.
+
+UP
+
+0
+
+DOWN
+
+1
+
+Zone 2
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+ON
+
+UP
+
+0
+
+DOWN
+
+1
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+8
+
+9
+
+Switch 1 down Switches 2-4 up
+
+Switch 1 up Switch 2 down
+Switches 3&4 up
+
+Zone 3
+
+Zone 4
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+ON
+
+UP
+
+0
+
+DOWN
+
+1
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switches 1&2 down Switches 3&4 up
+
+Switch 1&2 up Switch 3 down
+Switches 4 up
+
+Zone 5
+
+Zone 6
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+ON
+
+UP
+
+0
+
+DOWN
+
+1
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switch 1 down Switch 2 up
+Switch 3 down Switch 4 up
+
+Switch 1 up Switches 2&3 down
+Switch 4 up
+
+Zone 7
+
+Zone 8
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+ON
+
+UP
+
+0
+
+DOWN
+
+1
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switches 1-3 down Switch 4 up
+
+Switches 1-3 up Switches 4 down
+
+Zone 9
+
+Zone 10
+
+UP
+
+0
+
+DOWN
+
+1
+
+UP
+
+0
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+UP
+
+0
+
+ON
+
+2
+
+1
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switch 1 down Switches 2&3 up
+Switch
+DOWN
+1 4 down
+
+Switch 1 up Switch 2 down
+Switches
+3 up Switch 4 down
+DOWN
+1
+
+Zone 11
+
+Zone 12
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+2
+
+1
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+0
+Switches
+1&2 down Switches 3 up
+Switch
+4 down
+DOWN
+1
+UP
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+2
+
+1
+
+3
+
+4
+
+5
+
+DOWN
+
+UP
+
+The four additional addresses labeled 1B,2B,3B, and 4B
+are used in zones 1-4 for an additional keypad in each
+of those zones.
+
+Zone1 1B
+
+DOWN
+
+DOWN
+
+1
+
+ON
+
+1
+
+9
+
+0
+
+Zone1 2B
+
+DOWN
+
+0
+
+8
+
+1
+
+0
+
+UP
+
+7
+
+UP
+
+Fig. 9: Keypad Zone Address Switch Settings
+UP
+
+6
+
+0
+Switch
+1&2 up Switch 3&4 down
+
+Additional Zone Keypads (Fig. 9)
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switch 1 down Switch 2 up
+Switch
+3&4
+UP
+
+Switch 1 up Switches 2-4 down
+
+Zone1 3B
+
+DOWN
+
+0
+
+UP
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+0
+
+Zone1 4B
+
+DOWN
+
+3
+
+4
+
+5
+
+Switches 1-4 down
+
+17
+
+7
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+Switches 1-4 up
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Fig. 10: Switches 5, 6, & 7 Zone EQ Settings
+
+X. Setting the Preset Zone
+Equalization (Fig. 10)
+
+Bass & Treble +4 dB
+
+Switches 5,6, and 7 are used to set equalizations for
+each zone. These can be used to accommodate for
+acoustical variations in each room. The switch settings
+allow two levels of bass boost, two levels of treble
+boost, or if necessary, bass or treble can be cut. If you
+desire, you can leave the sound flat as it is recorded.
+
+UP
+
+0
+
+DOWN
+
+1
+
+Treble +8 dB
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switches 5, 6, & 7 up
+
+Switch 5 down Switches 6 & 7 up
+
+Treble +4 dB
+
+Treble -4 dB
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switch 5 up Switch 6 down
+Switch 7 up
+
+Switches 5 & 6 down Switch 7 up
+
+Bass +8 dB
+
+Bass +4 dB
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switches 5 & 6 up Switch 7 down
+
+Switch 5 down Switch 6 up
+Switch 7 down
+
+Bass -4 dB
+
+Flat
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Switch 5 up Switches 6 & 7 down
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+8
+
+9
+
+Switches 5, 6, & 7 down
+
+XI. Source Grouping (Fig. 11)
+Switch 8 is used to set a source group. This is a useful
+feature for large open living areas that do not have
+defined spaces separated by walls. In these areas it is
+not practical to have two or more sources playing at
+the same time.
+
+Fig. 11: Switch 8 Audio Source Grouping
+Independent Source
+Selection
+
+When a keypad has switch 8 in the up position, it will
+share the same source selection as any other keypad in
+the system that also has switch 8 in the up position.
+This allows those zones to all play the same source
+when turned on, but still maintain individual volume
+control.
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+Switch 8 down
+
+18
+
+Grouped Sources
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+Switch 8 up
+
+3
+
+4
+
+5
+
+6
+
+7
+
+XII. Volume Reset (Fig. 12)
+Previous Volume Level
+
+Switch 9 controls the volume level when the zone is
+turned on. When it is in the down position, the zone
+will turn on at its previous volume level. When it is in
+the up position, the zone will turn on at a preset low
+volume level.
+
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+2
+
+3
+
+Switch 9 down
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+Reset to Low Level Volume
+UP
+
+0
+
+DOWN
+
+1
+
+ON
+
+1
+
+Switch 9 up
+
+Fig. 12: Switch 9 Audio Volume Reset
+
+XIII. Parental Lock
+A unique feature of the Essentia keypad is the ability
+to lock the keypad functions once an audio selection is
+made. This is done by pressing the button for the
+selected source for approximately four seconds. The
+keypad will flash indicating that it is locked. Once it is
+locked it will not respond to any button pushes. To
+unlock the keypad, simply press and hold the selected
+source button again for approximately four seconds.
+When the keypad flashes, it is then unlocked and will
+then perform any of its functions.
+
+19
+
+2
+
+3
+
+4
+
+5
+
+6
+
+7
+
+8
+
+9
+
+XIII. The NV-RC2 IR Remote Control
+(Fig. 13)
+The Essentia System comes with the RC2 remote control. This remote allows wireless control of all of the
+keypad functions, as well as the functions of the NuVo
+T3 Tuner. The four-backlit buttons at the top of the
+remote allow you to choose which device the remote
+will control. The numeric keypad is used to choose the
+desired audio source, or tuner preset.
+
+NV-RC2 Remote
+
+The RC2 remote is an ideal tool for teaching the NuVo
+System functions to a universal learning remote control that can then operate the Essentia system as well
+as all the individual source functions.
+
+Fig. 13: NV-RC2 IR Remote Control
+
+XIV. Changing the Buttons on the
+Essentia Keypad (Fig. 14)
+The Essentia keypads ship with 36 preprinted interchangeable source buttons. This allows you to easily
+customize each keypad to match the audio components
+being used in the system.
+
+LED14
+LED13
+
+LED15 LED16
+LED17
+LED18
+
+LED12
+
+VOLUME
+
+ON
+OFF
+
+To change the buttons use a small screwdriver to
+remove the outer Decora insert. This exposes two inner
+plates that hold the buttons in place. Those are also
+removed with a small screwdriver, allowing you to
+remove and replace the desired source buttons.
+Line up the tabs on the replacement buttons with the
+corresponding holes in the keypad’s circuit board.
+Once the new buttons are in place return the inner
+plates and the outer keypad insert.
+
+Learning Remote
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+Fig. 14
+
+20
+
+ALL
+OFF
+
+Essentia Accessories
+NV-MI1 Mute Interface Adapter (Fig. 15)
+The Mute Interface is used in conjunction with System Mute input in the back of the Essentia amplifier. It acts
+as a relay for a voltage from up to two phone lines and two doorbell transformers. When a voltage is presented to
+the MI1 it then sends a contact closure to the Essentia System, which in turn causes the system to mute momentarily. This is useful in allowing the telephone ring or doorbell to be heard when audio is playing in any of the
+zones.
+
+VARIABLE
+OUTPUT
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+2
+
+ZONE 2
+3
+
+L
+
+4
+
+3
+
+ZONE 3
+
+L
+
+R
+
+2
+
+FIXED
+OUTPUT
+
+OUTPUT POWER
+20W/6OHM X2
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+20W/6OHM X2
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+FIXED
+OUTPUT
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 4
+
+3
+
+OUTPUT POWER
+
+RS-232
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 6
+
+ZONE 5
+1
+
+6
+
+5
+
+L
+
+R
+
+1
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+5
+
+1
+
+3
+
+USE CNLY WITH 250V FUSE
+
+PROGRAM
+5
+
+SYS ON
+
+SUM1
+
+CONNECT TO
+NV-I8X
+
+CONNECT TO
+NV-I8EZP1
+
+CONNECT TO
+NV-I8X
+
+USE NV-SLC1
+CABLE
+
+USE NV-NC1
+CABLE
+
+USE NV-SLC1
+CABLE
+
+NETWORK
+
+DIGITAL LINK
+
+MODEL NV-6DM
+SIX SOURCE SIX ZONE
+AUDIO DISTRIBUTION SYSTEM
+
+120V
+60Hz 500W
+FUSE:T5 A
+NuVo Technologies Cincinnati Ohio USA
+www.nuvotechnologies.com
+
+R
+
+4
+
+SOURCE INPUTS
+
+5
+
+2
+
+6
+
+4
+
+6
+
+2
+
+4
+
+6
+
+SUM2
+
+EXT. MUTE
+
+R
+
+ZONE TRIGGER OUTPUTS
+
+EMITTER OUTPUTS
+
+DOORBELL 1
+MUTE INTERFACE
+ADAPTER
+NV-MI1
+
+DOORBELL 2
+
+SYSTEM
+
+A
+B
+A
+B
+
+CONNECT TO
+MUTE INPUT
+Connect to Telephone RJ-11
+Line 1: Pins 3,4 Line 2: Pins 2,5
+
+Model NV-MI1
+Mute Interface Module
+
+Fig. 15: NuVo NV-MI1 Mute Interface for Use
+With All NuVo Audio Distribution Systems
+
+21
+
+CONFORMS TO
+UL STD.6500
+CERTIFIED TO
+CAN/CSA STD.E60065
+
+US
+
+C
+
+SOURCE LINK
+
+3033118
+
+Accessories—continued
+NV-LSI12 Local Source Interrupt (Fig. 16)
+The Local Source Interrupt enables an amplified local audio source to override the Essentia System and play
+through the local zone in-wall speakers. The most common scenario for this is a TV that would benefit from
+higher quality speakers.
+
+The connection from the LSI12 is
+done with the provided two prong
+plug. Make sure that red is positive
+and black is negative when splicing
+the two conductor wire from the LSI12.
+
+The selected zone speaker output of the Essentia or Simplese
+amplifier is wired directly to the LSI12.
+VARIABLE
+OUTPUT
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+2
+
+ZONE 2
+3
+
+L
+
+4
+
+FIXED
+OUTPUT
+
+3
+
+ZONE 3
+
+L
+
+R
+
+2
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+OUTPUT POWER
+20W/6OHM X2
+
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+20W/6OHM X2
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+FIXED
+OUTPUT
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 4
+
+3
+
+OUTPUT POWER
+
+RS-232
+
+20W/6OHM X2
+
+Black
+
+FIXED
+OUTPUT
+
+ZONE 6
+
+ZONE 5
+1
+
+6
+
+5
+
+L
+
+R
+
+1
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+FIXED
+OUTPUT
+
+5
+
+1
+
+3
+
+USE CNLY WITH 250V FUSE
+
+PROGRAM
+5
+
+SUM1
+
+SYS ON
+
+MODEL NV-6DM
+SIX SOURCE SIX ZONE
+AUDIO DISTRIBUTION SYSTEM
+
+CONNECT TO
+NV-I8X
+
+CONNECT TO
+NV-I8EZP1
+
+CONNECT TO
+NV-I8X
+
+USE NV-SLC1
+CABLE
+
+USE NV-NC1
+CABLE
+
+USE NV-SLC1
+CABLE
+
+NETWORK
+
+DIGITAL LINK
+
+120V
+60Hz 500W
+FUSE:T5 A
+NuVo Technologies Cincinnati Ohio USA
+www.nuvotechnologies.com
+
+Red
+
+R
+
+4
+
+SOURCE INPUTS
+
+5
+
+2
+
+6
+
+4
+
+6
+
+2
+
+4
+
+6
+
+SUM2
+
+EXT. MUTE
+
+R
+
+ZONE TRIGGER OUTPUTS
+
+EMITTER OUTPUTS
+
+SYSTEM
+
+CONFORMS TO
+UL STD.6500
+CERTIFIED TO
+CAN/CSA STD.E60065
+
+US
+
+C
+
+SOURCE LINK
+
+3033118
+
+89
+
+VOLUME
+
+ON
+OFF
+
+ALL
+OFF
+
+CD1
+
+CD2
+
+TNR1
+
+TNR2
+
+TNR3
+
+SAT
+
+A two conductor wire from a
+relay on the LSI12 plugs into
+the back of the zone keypad.
+When the Essentia or Simplese
+keypad is turned off the local source
+is routed to the zone speakers.
+The Essentia or Simplese is active
+when the zone keypad is turned on.
+LSI12 front
+
+LSI12 back
+
+Model NV-LSI12
+Mute Interface Module
+LOCAL SOURCE
+SWITCH
+NV-LSI12
+
+To Amplifier
+
+RLY+
+To Keypad
+RLYLLL+
+L+
+RRR+
+R+
+
+To Speakers
+
+CONNECT TO
+AMPLIFIER
+
+Four conductor speaker
+wire from the LSI12 to
+the zone speakers.
+
+Speaker input from Essentia or Simplese.
+
+Fig. 16: LSI12 Local Source Interrupt Wiring Diagram for Use with the NuVo Essentia D and Simplese
+Systems
+Note that the Local Source Interrupt is a passive non-amplified device. The signal sent to it must be
+amplified.
+
+22
+
+Accessories—continued
+NV-P2100 200 Watt Auxiliary Amplifier (Fig. 17)
+
+NV-P2100 Amplifier
+
+The P2100 is specifically designed for use with the NuVo
+Systems’ lineouts. It can be used with either the fixed or
+variable lineouts on the Essentia either a 1/8" to 1/8" stereo
+patch cable or a 1/8" stereo to RCA patch cable.
+
+AUDIO
+
+CONTROL
+CONTROL
+
+L
+
+SENSITIVITY
+OdBV = 1.0RMS
+
+INPUT
+2
+
+RIGHT
+0
+
+LEFT
+0
+
+POWER
+MODE
+
+VOLTAGE
+TRIGGER
+
+ON/OFF SWITCH
+AUDIO AC/DC
+
+3-30 VOLTS
+AC OR DC
+
+R
++6
+
+INPUT
+
+-12
+
++6
+
+-12
+
+OUTPUT
+
+Essentia Amplifier
+VARIABLE
+OUTPUT
+TIP=L
+RING=R
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+There are two methods for triggering the P2100 from the
+Essentia outputs. One is to set the POWER MODE switch
+on the P2100 to Audio (the extreme left position) and allow
+an incoming audio signal from the Essentia System to turn
+on the P2100. The second method is to place the POWER
+MODE switch in the AC/DC (extreme right) position. This
+will turn on the P2100 when the Essentia is on. An additional feature of Essentia is zone specific triggers that will
+trigger the P2100 only when that zone is turned on.
+Utilizing the voltage trigger requires a mono 1/8" patch
+cable from either the System ON output on the Essentia to
+the P2100 Voltage trigger input, or from the specific Zone
+Trigger on the Essentia to the Voltage Trigger on the P2100,
+as shown in Fig. 18.
+
+2
+
+TIP=L
+RING=R
+
+20W/6OHM X2
+
+FIXED
+OUTPUT
+
+ZONE 1
+1
+
+VARIABLE
+OUTPUT
+
+OUTPUT POWER
+
+ZONE 2
+3
+
+4
+
+5
+
+FIXED
+OUTPUT
+
+ZONE 3
+6
+
+CONNECT TO
+NV-I8X
+USE NV-SLC1
+CABLE
+
+1
+
+2
+
+3
+
+4
+
+SOURCE INPUTS
+
+Fig. 17
+
+NV-P2100 Amplifier
+AUDIO
+
+CONTROL
+CONTROL
+
+L
+
+SENSITIVITY
+OdBV = 1.0RMS
+
+INPUT
+2
+
+RIGHT
+0
+
+LEFT
+0
+
+POWER
+MODE
+
+VOLTAGE
+TRIGGER
+
+ON/OFF SWITCH
+AUDIO AC/DC
+
+3-30 VOLTS
+AC OR DC
+
+R
++6
+
+INPUT
+
+Essentia
+Amplifier
+ZONE 5
+
+1
+
+5
+
+2
+
+2
+
+3
+
+1
+
+4
+
+5
+
+6
+
+2
+
+ZONE TRIGGER OUTPUTS
+
+Fig. 18
+
+RS232 Interface
+The RS232 port allows external two-way communication
+with the Essentia System. Home automation systems such
+as Crestron and AMX can be set up to operate Essentia. The
+RS232 Addendum contained in this manual details the necessary code protocol to operate the Essentia System, using
+an external home automation system.
+
+23
+
+-12
+
++6
+
+-12
+
+OUTPUT
+
+ZONE 6
+3
+
+5
+
+SUM1
+
+4
+
+6
+
+SUM2
+
+EMITTER OUTPUTS
+
+5
+
+6
+
+SOURCE LINK
+
+OUTPUT POWER
+20W/6OHM X2
+
+Troubleshooting
+Symptom
+
+Probable Cause
+
+Remedy
+
+When the keypad is plugged in
+there is a loud pop through the
+speakers and the keypad does
+not work.
+
+Improperly wired Cat-5 cable.
+
+Check that you are using the
+568A wiring standard. (See
+Section I: Crimping Cat-5 Wire)
+
+My keypad is lit, but nothing
+happens when I press a button.
+
+Assigning identical addresses to
+more than one keypad usually
+causes this.
+
+Each keypad MUST have a
+unique address as set by DIP
+switches 1-4. (See Section IX:
+Setting Zone Addresses)
+
+The amplifier is plugged in and
+turned on, but the STAND BY
+LED is not lit and none of the
+system functions work.
+
+This is most likely caused by a
+blown fuse on the power supply.
+
+The fuse is accessed at the back
+of the amplifier where the AC
+cord plugs in. It requires a 4 amp
+time delay fuse.
+
+All the keypads change when a
+source is selected on only one.
+
+DIP Switch # 8 is in the up “O”
+position.
+
+Place DIP Switch # 8 in the down
+“1” position. This will turn off
+the source grouping feature.
+
+With the keypads plugged in, the One or more improperly wired
+POWER light on the front of the Cat-5 cables.
+amplifier will not turn on.
+
+Make sure the amplifier is
+turned on. Test that the POWER
+light on the amplifier turns on
+when the Network Cable is
+unplugged. Next unplug all the
+Cat-5 cables from the EZ Port
+and plug them back in one at a
+time until the bad cable is discovered.
+
+The IR repeater does not properly control the audio source
+equipment.
+
+One or more of the IR emitters
+are not properly placed over the
+IR receiver on the audio source
+equipment, or the IR output on
+the Essentia does not correspond
+with the audio source equipment
+you are controlling.
+
+24
+
+Reposition the LED end of the
+emitter on the face of the source
+equipment, so it is flashing
+directly over the IR receiver.
+Make sure that the emitter
+plugged into IR Output # 1 is
+actually going to source # 1, and
+so on for sources 2 - 6.
+
+Essentia Specifications
+Essentia D Specifications
+
+Zones 1-6 Power Amplifier Outputs
+Continuous Average Output Power (per zone)
+Two channels driven 30-20kHz @1% THD
+Rated Distortion (THD 1/2 power)
+Rated Impedance
+Damping Factor
+Frequency Response (20-20kHz)
+Zones 1-6 Preamplifier Outputs
+Variable output
+Fixed output
+Output Impedance
+Source Inputs 1-6
+Input Impedance
+Input Sensitivity for rated power
+Input Overload
+Emitter Outputs
+Source Outputs
+Sum Outputs
+Output Drive Current
+Output Drive Voltage
+Compatible with single and dual emitters
+System
+System On
+External Mute
+
+40W (20W x 2)
+0.40%
+6 Ohms
+50+
+±2dB
+0-600mV
+600mV
+600 Ohms
+10K
+300mV RMS
+3V RMS
+6
+2
+100mA
+12V
+12V @ 50mA
+3-12V DC
+
+Essentia package comes complete with the following:
+• Essentia six-source, six-zone amplifier
+• Six keypads with white, ivory, and almond cover plates for
+each, and 36 replacement buttons
+• RC2 remote control with batteries
+• EZ-Port Cat-5 connection hub
+• Network cable
+• Six infra red emitters
+
+Zone Trigger Outputs
+Output Power
+12V @ 50mA
+Outputs
+6 (zones 1-6)
+Power Requirements
+Power Supply
+120VAC/240VAC 50/60Hz
+Power Consumption all channels
+340VA (290W)
+driven to full-rated power
+Power Consumption average
+50VA (40W)
+operating conditions
+Power Consumption no signal
+18VA (12.5W)
+USA Safety Listing (UL 6500)
+Pending
+Canada Safety Listing (CAN/CSA E60065.00)
+Pending
+CE Listing/SEMKO (EN60065, EN55013,
+Pending
+EN55020, EN6100-3-2, EN6100-3-3/A1)
+Physical Specifications
+Unit Size Millimeters
+88 x 430 x 325
+Unit Size Inches
+3 1/2 x 17 x 12 3/4
+Shipping Size Millimeters
+290 x 540 x 440
+Shipping Size Inches
+11 3/8 x 21 1/4 x 17 3/8
+Unit Weight Kilograms
+7.8
+Unit Weight Pounds
+17.0
+Shipping Weight Kilograms
+12.7
+Shipping Weight Pounds
+28.0
+NuVo reserves the right to change specifications without notice.
+
+Essentia Expander package (for an additional six zones of sound)
+comes complete with the following:
+• Essentia six-source, six-zone amplifier
+• Six keypads with white, ivory, and almond cover plates for
+each, and 36 replacement buttons
+• RC2 remote control with batteries
+• Audiolink and Datalink connecting cables
+
+Warranty
+Neither NUVO Technologies, nor NUVO dealers are
+liable for any incidental or consequential damages
+resulting from any defect in or failure of NUVO
+Technologies products. This warranty gives the original owner of NUVO Technologies products specific
+legal rights, and he or she may also have other rights
+which vary from state to state. This warranty is
+expressly in lieu of all other agreements and warranties, expressed or implied, except as may be otherwise required by law.
+
+NUVO Technologies warrants this product to be free of
+defects in workmanship or material for a period of
+three (3) years from the original date of purchase. This
+warranty applies to the original purchaser only and is
+not transferable. This warranty is subject to the following conditions and exclusions:
+• Defects caused by wear and tear, misuse, or
+neglect are not covered by this warranty.
+• This warranty will be void if:
+a. The unit has been altered or modified.
+b. The serial number has been removed
+or defaced.
+c. Original purchase is not from an
+Authorized NUVO Dealer.
+d. The warranty card is not completely
+filled out and mailed within 10 days of
+the original purchase.
+
+25
+
+Control Interface Description Document for the Nuvo E6D Main Unit
+Revision B
+November 26, 2003
+DB9M PORT PINOUTS:
+
+Nuvo Transmit to System Controller on pin 2.
+Nuvo Receive from System Controller on pin 3.
+Ground on pin 5.
+
+SERIAL PORT PARAMETERS: RS232, RTS/CTS or software flow control (XON/XOFF) NOT required, 9600 baud, 8N1 protocol.
+RULES OF PROTOCOL:
+(1) For alpha ASCII characters, always use UPPER CASE. In this document, actual characters in a string are presented in BOLD type.
+(2) All numerical fields are coded as ASCII digit characters.
+(3) Each Command string is STARTED with an ASCII "*" character and terminated by a <CR> character (0D hexadecimal). Each
+response string issued by the E6D will START with an ASCII "#" and be terminated with a <CR> character (0D hexadecimal).
+(4) If a command has an error in it (does not adhere to exact command syntax), the E6D will respond with a "#?<CR>" string.
+(5) Whenever queuing multiple commands to the E6D, the host program should pause for 50 milliseconds between commands to prevent buffer overruns.
+NUVO POWER-ON STATE:
+(1) Each zone is OFF until ON command is received.
+(2) Each zone’s ZoneSet status will be as set by the local keypad DIP switches
+If no keypad is connected with a given zone address, then ZoneSet will default to:
+A. OR0 (No override)
+B. BASS+0 (Bass FLAT)
+C. TREB+0 (Treble FLAT)
+D. GRP0 (SOURCE GROUPING OFF)
+E. VRST1 (VOLUME RESET TO –50 dB ON)
+If these zone settings are overridden by the commands which follow in this document, the overridden values will reset to the default
+values above upon cycling power on the Main Unit.
+(3) For the first four seconds after power-on, a series of non-control related characters will be issued at a wide range of baud rates.
+These are necessary queries to a program that may be running on a connected PC for the purpose of firmware field upgrades.
+They should be ignored by the host control system.
+NON-VOLATILE COMMANDS AND ASSOCIATED RESPONSE: With the exception of commands associated with setting the IR carrier frequency, the
+effect of all commands is non-permanent; i.e. when power is cycled on the main unit, it will return to default values. The commands that are an
+exception to this rule follow in this section.
+*********************************************************************************
+COMMAND:
+*IRSETSR<CR> – Reads status of SOURCE IR carrier frequency settings.
+RESPONSE:
+#IRSET:aa,bb,cc,dd,ee,ff<CR> where:
+aa = IR carrier frequency of SOURCE 1 ("38" or "56")
+bb = carrier frequency of SOURCE 2 ("38" or "56")
+cc = carrier frequency of SOURCE 3 ("38" or "56")
+dd = carrier frequency of SOURCE 4 ("38" or "56")
+ee = carrier frequency of SOURCE 5 ("38" or "56")
+ff = carrier frequency of SOURCE 6 ("38" or "56")
+NOTE – the Main Unit ships with the carrier frequency DEFAULT setting of
+38 KHz for all six sources.
+*********************************************************************************
+COMMAND:
+*IRSETDF<CR> – Restores DEFAULT SOURCE IR carrier frequency settings (38 KHz for all six sources).
+RESPONSE: Same response as for #IRSETSR<CR>
+*********************************************************************************
+
+26
+
+COMMAND:
+RESPONSE:
+
+*SxIR56SET<CR> - sets SOURCE x to 56 KHz IR repeat carrier (x is 1 to 6).
+Same response as for #IRSETSR<CR>
+
+*********************************************************************************
+COMMAND: *SxIR38SET<CR> - sets SOURCE x to 38 KHz IR repeat carrier (x is 1 to 6).
+RESPONSE: Same response as for #IRSETSR<CR>
+*********************************************************************************
+COMMAND/RESPONSE DESCRIPTIONS.
+NOTE – zone number field xx should ALWAYS
+Include a lead zero ("0") for zone numbers less than 10.
+COMMAND:
+RESPONSE:
+
+*ZxxCONSR<CR> - Connect STATUS REQUEST where xx is zone # from 1 to 12.
+#ZxxPWRppp,SRCs,GRPt,VOL-yy<CR>
+-ppp = "ON" (2 characters)
+or "OFF" (3 characters)
+-s = SOURCE NUMBER 1 to 6
+-q = 0 if SOURCE GROUP is ON
+1 if SOURCE GROUP is OFF
+-yy = level below max in dB: -00 to -79 dB
+(include lead 0 for all single-digit values)
+-yy = "MT" if in MUTE state
+-yy = "XM" if external MUTE is being held active
+
+This response will also be issued in response to pressing the ON/OFF, VOLUME, or SOURCE
+keys on a KEYPAD. NOTE – the response will be issued if a SOURCE key is press`ed on a
+zone that is powered OFF even though the key press has no effect on the system. It will be
+output at every increment during a volume ramp initiated by HOLDING a VOLUME UP or
+VOLUME DOWN key on a keypad. It will also be issued at every increment of a volume
+ramp commanded by the *ZxxVOL+<CR> and *ZxxVOL-<CR> commands (see below).
+The MUTE value will be asserted if a *ZxMTON<CR> command has been received, OR if the
+volume is run all the way to the lowest possible point (volume off). An active EXTERNAL
+MUTE input, however, will always override other volume response values with the "XM"
+response.
+*********************************************************************************
+COMMAND:
+*ZxxSETSR<CR> – ZoneSet STATUS REQUEST where xx is zone # from 1 to 12.
+RESPONSE: #ZxxORp,BASSyy,TREByy,GRPq,VRSTr<CR>-p = 1 if DIP switches are overridden*
+0 if DIP switches are in control
+-yy = EQ level, dB, –8 to +0 (flat) to
++8 in 1 dB increments
+-q = 0 if SOURCE GROUP is ON
+1 if SOURCE GROUP is OFF
+(This follows DIP switch definition.)
+-r =
+
+0 if VOLUME RESET is ON
+1 if VOLUME RESET is OFF
+(This follows DIP switch definition.)
+
+*override set to 1 FOR THIS ZONE only if one of commands *ZxxBASSyy<CR>, *ZxxTREByy<CR>, *ZxxGRPq<CR>, or *ZxxVRSTr<CR> are issued (see
+descriptions below).
+
+27
+
+Once it is SET by one of these commands:
+a. It will remain set until power is cycled on the unit.
+b. Non-address DIP switch changes on a connected KEYPAD connected to this zone will be ignored.
+If override state is "0", this response is also issued whenever non-address KEYPAD DIP switches are changed.
+*********************************************************************************
+COMMAND:
+*ZxxON<CR> – Turn zone xx ON.
+RESPONSE:
+Same response as for *ZxxCONSR<CR>
+*********************************************************************************
+COMMAND:
+*ZxxOFF<CR> – Turn zone xx OFF.
+RESPONSE:
+Same response as for *ZxxCONSR<CR>
+*********************************************************************************
+COMMAND:
+*ALLOFF<CR> – Turn ALL zones OFF.
+RESPONSE:
+#ALLOFF<CR>
+This RESPONSE is also issued when ALL OFF is pressed on any KEYPAD.
+*********************************************************************************
+COMMAND:
+*ALLV+<CR> – Ramp ALL zones UP at a 10 dB/second rate in 1 dB steps.
+RESPONSE:
+#ALLV+<CR>
+The ramp action will be cancelled when all zones reach MAXIMUM volume, or when an *ALLHLD<CR> Command is received. Note that to stop the
+ramp with this command before maximum volume, one reference zone must be periodically polled with a *ZxxCONSR<CR> Command to determine
+when the desired volume point has been reached. Note that ramps in different zones may start at different levels and will all ramp at the same
+rate.
+*********************************************************************************
+COMMAND:
+*ALLV-<CR> – Ramp ALL zones DOWN at a 10 dB/second rate in 1 dB steps.
+RESPONSE:
+#ALLV-<CR>
+The ramp action will be cancelled when all zones reach MINIMUM (OFF) volume, or when an *ALLHLD<CR> Command is received. Note that to
+stop the ramp with this command before the minimum volume, one reference zone must be periodically polled with a *ZxxCONSR<CR> Command
+to determine when the desired volume point has been reached. Note that ramps in different zones may start at different levels and will all ramp
+at the same rate.
+*********************************************************************************
+COMMAND:
+*ALLHLD<CR> – Stops ramp action initiated by *ALLV+<CR> Or *ALLV-<CR>
+RESPONSE:
+#ALLHLD-<CR>
+This results in a HOLD of the level at time of command receipt.
+*********************************************************************************
+COMMAND:
+*ALLMON<CR> – ALL MUTE ON.
+RESPONSE:
+# ALLMON<CR>
+*********************************************************************************
+COMMAND:
+*ALLMOFF<CR> – ALL MUTE OFF.
+RESPONSE:
+#ALLMOFF<CR>
+********************************************************************************
+COMMAND:
+*ZxxSRCp<CR> – Switch zone xx to SOURCE p ( 1 to 6).
+RESPONSE:
+Same response as for *ZxxCONSR<CR>
+*********************************************************************************
+
+28
+
+COMMAND:
+RESPONSE:
+
+*ZxxVOLyy<CR> – Set volume of zone xx to level yy below max in dB from –0 to –78 dB
+(include lead 0 for all single-digit values).
+Same response as for *ZxxCONSR<CR>
+
+*********************************************************************************
+COMMAND:
+*ZxxVOL+<CR> – STARTS zone xx volume ramp UP at the rate of +10 dB per second in +1 dB steps.
+(This is the same as holding VOLUME UP key on a KEYPAD for 1 second).
+RESPONSE:
+Same response as for *ZxxCONSR<CR>, updated 10 times per second.
+*********************************************************************************
+COMMAND:
+*ZxxVOL-<CR> – STARTS zone xx volume ramp DOWN at the rate of -10 dB per second in -1 dB steps.
+(This is the same as holding VOLUME UP key on a KEYPAD for 1 second).
+RESPONSE:
+Same response as for *ZxxCONSR<CR>, updated 10 times per second.
+*********************************************************************************
+COMMAND:
+*ZxxVHLD<CR> – STOPS zone xx volume ramp initiated by *ZxxVOL+<CR> or *ZxxVOL-<CR> commands.
+This results in a HOLD of the level at time of command receipt. RESPONSE: #ZxxVHLD<CR>
+*********************************************************************************
+COMMAND:
+*ZxxMTON<CR> – zone xx MUTE ON (mutes currently connected source)
+RESPONSE:
+Same response as for *ZxxCONSR<CR>
+*********************************************************************************
+COMMAND:
+*ZxxMTOFF<CR> – zone xx MUTE OFF (returns zone output to currently connected source at previous volume setting).
+RESPONSE:
+Same response as for *ZxxCONSR<CR>
+*********************************************************************************
+COMMAND:
+*ZxxBASSyyy<CR> – zone xx BASS EQ with yyy = EQ level, dB, –12 to +0 (flat) to +12 in 2 dB increments.
+USE LEAD "0" IN TENS PLACE FOR VALUE LESS THAN 10.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+*********************************************************************************
+COMMAND:
+*ZxxTREByyy<CR> – zone xx TREBLE EQ with yyy = EQ level, dB, –12 to +0 (flat) to +12 in 2 dB increments.
+USE LEAD "0" IN TENS PLACE FOR VALUE LESS THAN 10.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+*********************************************************************************
+COMMAND:
+*ZxxGRPON<CR> – zone xx SOURCE GROUP ON.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+*********************************************************************************
+COMMAND:
+*ZxxGRPON<CR> – zone xx SOURCE GROUP ON.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+*********************************************************************************
+COMMAND:
+*ZxxGRPOFF<CR> – zone xx SOURCE GROUP OFF.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+
+29
+
+*********************************************************************************
+COMMAND:
+*ZxxVRSTON<CR> – zone xx VOLUME RESET ON.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+*********************************************************************************
+COMMAND:
+*ZxxVRSTOFF<CR> – zone xx VOLUME RESET OFF.
+RESPONSE:
+Same response as for *ZxxSETSR<CR>
+NOTE: sending this command to the E6D will set override (lock out KEYPAD non-address DIP switches) for this zone until power is cycled.
+*********************************************************************************
+COMMAND:
+*ZxxLKON<CR> – zone xx KEYPAD LOCK ON – This will INHIBIT ANY keypad control input on the zone.
+This is the same as activating the Parental lock control at a keypad by holding down a SOURCE key for three seconds).
+RESPONSE:
+#ZxxLKON<CR>
+*********************************************************************************
+COMMAND:
+*ZxxLKOFF<CR> – zone xx KEYPAD LOCK ON – This will RESTORE ALL keypad control input on the zone
+(useful as Parental lock control) . This is the same as de-activating the Parental lock control at a keypad by
+holding down a SOURCE key for three seconds).
+RESPONSE:
+#ZxxLKOFF<CR>
+*********************************************************************************
+COMMAND:
+*VER<CR> – Firmware version query.
+RESPONSE:
+
+#NUVO_E6D_vx.yy<CR> where x is the major version number and yy
+is the minor version number.
+
+*********************************************************************************
+RESPONSE:
+#EXTMON<CR> Issued whenever the External MUTE first activates (closure to ground) and
+0 whenever the External MUTE de-activates (open connection to ground).
+NOTE – there is no COMMAND associated with this response; it is always initiated by a change at the EXT. MUTE input.
+*********************************************************************************
+RESPONSE:
+#EXTMOFF<CR> Issued whenever External MUTE de-activates (open connection to ground).
+NOTE – there is no COMMAND associated with this response; it is always initiated by a change at the EXT. MUTE input.
+
+30
+
+31
+
+www.nuvotechnologies.com
+4940 Delhi Pike
+Cincinnati, OH 45238 U.S.A.
+513-347-2180
+
+

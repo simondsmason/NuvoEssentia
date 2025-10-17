@@ -16,7 +16,14 @@ The USR-TCP232-302 device:
 - Source playing state tracking
 - Works with USR-TCP232-302 and compatible IP-to-serial converters
 
-## New in v1.22
+## New in v1.23
+
+- **Fixed Command Queue Timing:** Replaced broken `pauseExecution()` with reliable `runIn()` for proper command spacing
+- **Enhanced Timing Debugging:** Added comprehensive logging to track actual vs expected command delays
+- **Resolved Switching Issues:** Commands now properly spaced according to user preference (1000ms default) instead of 12ms
+- **Improved Reliability:** Eliminated timing-related command conflicts that were causing Nuvo switching problems
+
+## Previous Fixes (v1.22)
 
 - **Fixed Critical Bug:** Negative BASS/TREBLE values were missing minus sign in commands
 - **Corrected Command Formatting:** Commands now properly format negative values (e.g., `*Z11BASS-11` instead of `*Z11BASS11`)

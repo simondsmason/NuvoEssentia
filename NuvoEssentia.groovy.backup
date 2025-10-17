@@ -58,37 +58,12 @@
  *    version 1.16  @  2025-07-05  -  Fixed source playing status logic; Reverted to working zone-based approach from version 1.10;
  *                                     Removed broken #SRC message parsing; Source playing status now correctly derived from zone status;
  *                                     Added proper initialization and #ALLOFF handling for source playing states
- *    version 1.17  @  2025-07-07  -  Added volume control commands for all active zones; Renamed setAllZoneSource to setAllActiveZoneSource;
- *                                     Added raiseAllActiveZonesVolume and lowerAllActiveZonesVolume commands (1-25% range);
- *                                     Commands only affect zones that are currently ON; Enhanced logging for volume changes;
- *                                     Suppressed timeout messages to reduce log noise
- *    version 1.18  @  2025-07-07  -  Fixed command timing issue; Replaced runIn() with pauseExecution() for precise millisecond delays;
- *                                     Modified raiseAllActiveZonesVolume and lowerAllActiveZonesVolume to queue commands individually;
- *                                     All commands now respect commandSpacing setting consistently; Improved queue processing reliability;
- *                                     Enhanced debug logging for command timing and queue status
- *    version 1.19  @  2025-07-08  -  Enhanced parsing logic to distinguish between power state and parameter messages;
- *                                     Added new zone attributes: Relay, Bass EQ, Treble EQ, Volume Restore; Added commands to set these parameters;
- *                                     Updated getAllZoneStatus() to send both CONSR and SETSR for complete zone information;
- *                                     Heartbeat now includes parameter polling; Added getAllZoneParameters() command;
- *                                     Improved error handling - unrecognized responses are logged but don't affect zone state;
- *                                     Added comprehensive command documentation; Removed validateConnection from UI commands
- *    version 1.20  @  2025-01-08  -  Fixed BASS/TREBLE command formatting to use 3-digit format with leading zeros;
- *                                     Removed invalid relay command and UI elements (OR command not supported by Nuvo);
- *                                     Fixed volume reset commands to use VRSTON/VRSTOFF format instead of VRST1/VRST0;
- *                                     Resolved #? syntax errors from malformed commands
- *    version 1.21  @  2025-01-08  -  Fixed BASS/TREBLE range from -10/+10 to correct -12/+12 range per Nuvo documentation;
- *                                     Updated UI descriptions to clarify positive values don't need plus sign;
- *                                     Improved command formatting for better user experience
- *    version 1.22  @  2025-01-08  -  Fixed critical bug: negative BASS/TREBLE values were missing minus sign in commands;
- *                                     Commands now properly format negative values (e.g., *Z11BASS-11 instead of *Z11BASS11)
- *    version 1.23  @  2025-01-08  -  Fixed command queue timing: replaced broken pauseExecution() with runIn() for proper command spacing;
- *                                     Added comprehensive timing debugging to track actual vs expected delays
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.23"
+@Field static final String DRIVER_VERSION = "1.16"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -107,6 +82,7 @@ metadata {
         command "clearCommandQueue"
         command "resetConnectionFailures"
         command "forceReconnect"
+        command "validateConnection"
         
         command "zoneOn", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"]]
         command "zoneOff", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"]]
@@ -116,18 +92,11 @@ metadata {
                                  [name: "Volume", type: "NUMBER", description: "Volume level (1-100, higher is louder)"]]
         command "setZoneMute", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"],
                                [name: "State", type: "ENUM", description: "Mute state (ON/OFF)", constraints: ["ON", "OFF"]]]
-        command "setAllActiveZoneSource", [[name: "Source", type: "NUMBER", description: "Source number (1-6) to set for all active zones"]]
-        command "raiseAllActiveZonesVolume", [[name: "Percentage", type: "NUMBER", description: "Percentage to increase volume (1-25)", constraints: ["1..25"]]]
-        command "lowerAllActiveZonesVolume", [[name: "Percentage", type: "NUMBER", description: "Percentage to decrease volume (1-25)", constraints: ["1..25"]]]
+        command "setAllZoneSource", [[name: "Source", type: "NUMBER", description: "Source number (1-6) to set for all active zones"]]
         
         command "getZoneStatus", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"]]
         command "getAllZoneStatus"
-        command "getAllZoneParameters"
         command "allOff"
-        
-        command "setZoneBass", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "Bass", type: "NUMBER", description: "Bass EQ (-12 to +12, use minus for negative, no plus for positive)"]]
-        command "setZoneTreble", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "Treble", type: "NUMBER", description: "Treble EQ (-12 to +12, use minus for negative, no plus for positive)"]]
-        command "setZoneVolumeRestore", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "RestoreState", type: "ENUM", description: "Volume Restore (ON/OFF)", constraints: ["ON", "OFF"]]]
         
         for (int i = 1; i <= 12; i++) {
             attribute "Zone ${i} Status", "string"
@@ -136,7 +105,6 @@ metadata {
             attribute "Zone ${i} Group", "number"
             attribute "Zone ${i} EQBass", "string"
             attribute "Zone ${i} EQTreble", "string"
-            attribute "Zone ${i} VolumeRestore", "string"
         }
         
         for (int i = 1; i <= 6; i++) {
@@ -247,11 +215,8 @@ void initialize() {
     
     // Schedule initial connection
     runIn(2, "openConnection")
-}
+    }
 
-/**
- * Open a new connection to the Nuvo Essentia system
- */
 def openConnection() {
     if (state.socketConnected) {
         logD "Connection already open"
@@ -272,8 +237,8 @@ def openConnection() {
 def establishConnection() {
     try {
         logD "closing existing connections..."
-        closeConnection()
-        
+    closeConnection()
+    
         def connectionString = "${settings.serverIp}:${settings.serverPort}"
         logD "Establishing telnet connection to ${connectionString}"
         
@@ -321,9 +286,6 @@ def connectionValidationTimeout() {
     }
 }
 
-/**
- * Close the current connection to the Nuvo Essentia system
- */
 def closeConnection() {
     logD "closing existing connections..."
     try {
@@ -386,9 +348,6 @@ def handleCommunicationFailure(String reason) {
     runIn(retryDelay, "openConnection")
 }
 
-/**
- * Reset the connection failure counter
- */
 def resetConnectionFailures() {
     def previousFailures = state.consecutiveCommunicationFailures ?: 0
     logI "Manually resetting communication failure counter (was: ${previousFailures})"
@@ -408,9 +367,6 @@ def resetConnectionFailures() {
     }
 }
 
-/**
- * Get current connection status information
- */
 def connectionStatus() {
     def status = [
         socketConnected: state.socketConnected ?: false,
@@ -425,9 +381,6 @@ def connectionStatus() {
     return status
 }
 
-/**
- * Force a reconnection attempt
- */
 def forceReconnect() {
     logI "Manual reconnection attempt initiated"
     unschedule("checkConnection")
@@ -499,9 +452,6 @@ def checkConnection() {
             
             logD "Heartbeat check: querying Zone ${state.heartbeatZone}"
             getZoneStatus(state.heartbeatZone)
-            // Also get parameters for the heartbeat zone
-            def formattedZone = String.format("%02d", state.heartbeatZone)
-            sendCommand("*Z${formattedZone}SETSR")
             
             state.heartbeatZone = (state.heartbeatZone % 12) + 1
             
@@ -673,52 +623,34 @@ private static byte[] decodeHex(String hex) {
     return hex.decodeHex()
 }
 
-/**
- * Turn on Zone 1 (main zone) - equivalent to powerOn()
- */
 def on() {
     logD "on()"
     powerOn()
 }
 
-/**
- * Turn off Zone 1 (main zone) - equivalent to powerOff()
- */
 def off() {
     logD "off()"
     powerOff()
 }
 
-/**
- * Turn on Zone 1 (main zone)
- */
 def powerOn() {
     logD "powerOn()"
     sendCommand("*Z01ON")
     sendEvent(name: "switch", value: "on")
 }
 
-/**
- * Turn off all zones
- */
 def powerOff() {
     logD "powerOff()"
     sendCommand("*ALLOFF")
     sendEvent(name: "switch", value: "off")
 }
 
-/**
- * Turn off all zones
- */
 def allOff() {
     logD "allOff()"
     sendCommand("*ALLOFF")
     sendEvent(name: "switch", value: "off")
 }
 
-/**
- * Turn on a specific zone (1-12)
- */
 def zoneOn(def zoneNum) {
     int zone = zoneNum as Integer
     def formattedZone = String.format("%02d", zone)
@@ -726,9 +658,6 @@ def zoneOn(def zoneNum) {
     sendCommand("*Z${formattedZone}ON")
 }
 
-/**
- * Turn off a specific zone (1-12)
- */
 def zoneOff(def zoneNum) {
     int zone = zoneNum as Integer
     def formattedZone = String.format("%02d", zone)
@@ -736,9 +665,6 @@ def zoneOff(def zoneNum) {
     sendCommand("*Z${formattedZone}OFF")
 }
 
-/**
- * Set the source for a specific zone (1-12)
- */
 def setZoneSource(def zoneNum, def sourceNum) {
     int zone = zoneNum as Integer
     int source = sourceNum as Integer
@@ -747,9 +673,6 @@ def setZoneSource(def zoneNum, def sourceNum) {
     sendCommand("*Z${formattedZone}SRC${source}")
 }
 
-/**
- * Set the volume for a specific zone (1-12)
- */
 def setZoneVolume(def zoneNum, def volumeLevel) {
     int zone = zoneNum as Integer
     int userVolume = volumeLevel as Integer
@@ -767,125 +690,6 @@ def setZoneVolume(def zoneNum, def volumeLevel) {
     sendCommand("*Z${formattedZone}VOL${formattedVolume}")
 }
 
-/**
- * Increase volume for all active zones by the specified percentage
- */
-def raiseAllActiveZonesVolume(def percentage) {
-    int percent = percentage as Integer
-    
-    // Validate percentage
-    if (percent < 1 || percent > 25) {
-        logE "Invalid percentage: ${percent}. Must be between 1 and 25."
-        return
-    }
-    
-    logI "Raising volume by ${percent}% for all active zones"
-    
-    def activeZones = []
-    
-    // Find all zones that are currently ON
-    for (int zoneNum = 1; zoneNum <= 12; zoneNum++) {
-        def zoneStatus = device.currentValue("Zone ${zoneNum} Status")
-        if (zoneStatus == "ON") {
-            activeZones.add(zoneNum)
-        }
-    }
-    
-    if (activeZones.isEmpty()) {
-        logI "No zones are currently active - no changes made"
-        return
-    }
-    
-    logI "Found ${activeZones.size()} active zones: ${activeZones.join(', ')}"
-    
-    // Queue volume commands one at a time to ensure proper spacing
-    def volumeCommands = []
-    activeZones.each { zoneNum ->
-        def currentVolume = device.currentValue("Zone ${zoneNum} Volume")
-        if (currentVolume) {
-            int currentVol = currentVolume as Integer
-            int newVolume = Math.min(100, currentVol + percent)
-            
-            logD "Zone ${zoneNum}: ${currentVol}% → ${newVolume}% (+${percent}%)"
-            def formattedZone = String.format("%02d", zoneNum)
-            int nuvoVolume = (int)((100 - newVolume) * 79 / 99)
-            nuvoVolume = Math.max(0, Math.min(79, nuvoVolume))
-            def formattedVolume = String.format("%02d", nuvoVolume)
-            volumeCommands << "*Z${formattedZone}VOL${formattedVolume}"
-        } else {
-            logW "No volume data for zone ${zoneNum} - skipping"
-        }
-    }
-    
-    // Queue commands one at a time to ensure proper spacing
-    volumeCommands.each { command ->
-        sendCommand(command)
-    }
-    
-    logI "Queued volume raise commands for ${volumeCommands.size()} active zones"
-}
-
-/**
- * Decrease volume for all active zones by the specified percentage
- */
-def lowerAllActiveZonesVolume(def percentage) {
-    int percent = percentage as Integer
-    
-    // Validate percentage
-    if (percent < 1 || percent > 25) {
-        logE "Invalid percentage: ${percent}. Must be between 1 and 25."
-        return
-    }
-    
-    logI "Lowering volume by ${percent}% for all active zones"
-    
-    def activeZones = []
-    
-    // Find all zones that are currently ON
-    for (int zoneNum = 1; zoneNum <= 12; zoneNum++) {
-        def zoneStatus = device.currentValue("Zone ${zoneNum} Status")
-        if (zoneStatus == "ON") {
-            activeZones.add(zoneNum)
-        }
-    }
-    
-    if (activeZones.isEmpty()) {
-        logI "No zones are currently active - no changes made"
-        return
-    }
-    
-    logI "Found ${activeZones.size()} active zones: ${activeZones.join(', ')}"
-    
-    // Queue volume commands one at a time to ensure proper spacing
-    def volumeCommands = []
-    activeZones.each { zoneNum ->
-        def currentVolume = device.currentValue("Zone ${zoneNum} Volume")
-        if (currentVolume) {
-            int currentVol = currentVolume as Integer
-            int newVolume = Math.max(1, currentVol - percent)
-            
-            logD "Zone ${zoneNum}: ${currentVol}% → ${newVolume}% (-${percent}%)"
-            def formattedZone = String.format("%02d", zoneNum)
-            int nuvoVolume = (int)((100 - newVolume) * 79 / 99)
-            nuvoVolume = Math.max(0, Math.min(79, nuvoVolume))
-            def formattedVolume = String.format("%02d", nuvoVolume)
-            volumeCommands << "*Z${formattedZone}VOL${formattedVolume}"
-        } else {
-            logW "No volume data for zone ${zoneNum} - skipping"
-        }
-    }
-    
-    // Queue commands one at a time to ensure proper spacing
-    volumeCommands.each { command ->
-        sendCommand(command)
-    }
-    
-    logI "Queued volume lower commands for ${volumeCommands.size()} active zones"
-}
-
-/**
- * Set mute state for a specific zone (1-12)
- */
 def setZoneMute(def zoneNum, def muteState) {
     int zone = zoneNum as Integer
     def formattedZone = String.format("%02d", zone)
@@ -898,10 +702,7 @@ def setZoneMute(def zoneNum, def muteState) {
     }
 }
 
-/**
- * Set all active zones to the specified source
- */
-def setAllActiveZoneSource(def sourceNum) {
+def setAllZoneSource(def sourceNum) {
     int source = sourceNum as Integer
     
     // Validate source number
@@ -940,35 +741,21 @@ def setAllActiveZoneSource(def sourceNum) {
 }
 
 def sendCommand(String command) {
-    def queueTime = now()
-    logD "[QUEUE] sendCommand called at ${queueTime}: ${command}"
-    
     if (settings.enableCommandQueue == false) {
-        logD "[QUEUE] Command queue disabled, sending immediately"
         sendCommandImmediate(command)
         return
     }
-    
     if (!state.commandQueue) {
         state.commandQueue = []
-        logD "[QUEUE] Initialized empty command queue"
     }
-    
-    state.commandQueue << [command: command, timestamp: queueTime]
+    state.commandQueue << [command: command, timestamp: now()]
     updateQueueStatus()
-    logD "[QUEUE] Queued command: ${command} (Queue size: ${state.commandQueue.size()}) at ${queueTime}"
-    
+    logD "Queued command: ${command} (Queue size: ${state.commandQueue.size()})"
     if (!state.queueProcessing) {
-        logD "[QUEUE] Queue not processing, starting processCommandQueue()"
         processCommandQueue()
-    } else {
-        logD "[QUEUE] Queue already processing, command will be processed later"
     }
 }
 
-/**
- * Clear the command queue
- */
 def clearCommandQueue() {
     def queueSize = state.commandQueue ? state.commandQueue.size() : 0
     logI "Manually clearing command queue (${queueSize} commands)"
@@ -985,35 +772,10 @@ def updateQueueStatus() {
 }
 
 def processCommandQueue() {
-    // Enhanced debug: Track what's calling this function
-    def caller = new Exception().getStackTrace()
-    def callerInfo = "Unknown"
-    if (caller.length > 1) {
-        def callerMethod = caller[1].getMethodName()
-        def callerClass = caller[1].getClassName()
-        callerInfo = "${callerClass}.${callerMethod}"
-    }
-    
-    def nowTime = now()
-    logD "[QUEUE] ===== processCommandQueue called at ${nowTime} by: ${callerInfo} ====="
-    
-    // Track timing for runIn() calls
-    if (state.lastRunInScheduledTime) {
-        def actualDelay = nowTime - state.lastRunInScheduledTime
-        def expectedDelay = (settings.commandSpacing ?: 500) as Integer
-        logD "[QUEUE] runIn() timing: expected ${expectedDelay}ms, actual ${actualDelay}ms, difference: ${actualDelay - expectedDelay}ms"
-    }
-    
     if (!state.commandQueue || state.commandQueue.isEmpty()) {
         state.queueProcessing = false
         updateQueueStatus()
-        logD "[QUEUE] Command queue empty - stopping processing"
-        return
-    }
-    
-    // Check if already processing
-    if (state.queueProcessing) {
-        logD "[QUEUE] WARNING: Queue already processing! Called by: ${callerInfo}"
+        logD "Command queue empty - stopping processing"
         return
     }
     
@@ -1021,29 +783,17 @@ def processCommandQueue() {
     updateQueueStatus()
     
     def command = state.commandQueue.remove(0)
-    logD "[QUEUE] processCommandQueue processing at ${nowTime} (queue size before: ${state.commandQueue.size() + 1}, after: ${state.commandQueue.size()})"
-    if (state.lastCommandSentTime) {
-        def elapsed = nowTime - state.lastCommandSentTime
-        logD "[QUEUE] Time since last command sent: ${elapsed} ms"
-    }
-    logD "[QUEUE] Processing command: ${command.command}"
+    logD "Processing command: ${command.command}"
     
     try {
-        def sendTime = now()
-        logD "[QUEUE] About to send command at ${sendTime}: ${command.command}"
         sendCommandImmediate(command.command)
-        state.lastCommandSentTime = sendTime
-        logD "[QUEUE] Command sent at ${sendTime}, lastCommandSentTime updated"
         
-        // Schedule next command processing with precise timing using runIn()
+        // Schedule next command processing with spacing
         def spacing = settings.commandSpacing ?: 500
-        def delaySeconds = Math.ceil(spacing / 1000) as Integer
-        state.lastRunInScheduledTime = now()
-        logD "[QUEUE] Scheduling next command processing in ${delaySeconds} seconds (${spacing} ms) at ${state.lastRunInScheduledTime}"
-        runIn(delaySeconds, "processCommandQueue")
-        logD "[QUEUE] runIn() scheduled, exiting processCommandQueue"
+        runIn((spacing/1000) as Integer, "processCommandQueue")
+        
     } catch (Exception e) {
-        logE "[QUEUE] Error processing command ${command.command}: ${e.message}"
+        logE "Error processing command ${command.command}: ${e.message}"
         state.queueProcessing = false
         updateQueueStatus()
         handleCommunicationFailure("Command processing failed: ${e.message}")
@@ -1052,7 +802,7 @@ def processCommandQueue() {
 
 def sendCommandImmediate(String command) {
     try {
-        logD "[QUEUE] Sending command at ${now()}: ${command}"
+        logD "Sending command: ${command}"
         interfaces.rawSocket.sendMessage(command + "\r")
     } catch (Exception e) {
         logE "Error sending command ${command}: ${e.message}"
@@ -1072,13 +822,13 @@ def parseDeviceResponse(String asciiMessage) {
     }
     
     // Handle #ALLOFF response
-    if (asciiMessage == "#ALLOFF") {
-        logI "All zones turned off"
-        for (int i = 1; i <= 12; i++) {
-            sendEvent(name: "Zone ${i} Status", value: "OFF")
-        }
-        sendEvent(name: "switch", value: "off")
-        initializeSourcePlayingStates()
+            if (asciiMessage == "#ALLOFF") {
+                logI "All zones turned off"
+                for (int i = 1; i <= 12; i++) {
+                    sendEvent(name: "Zone ${i} Status", value: "OFF")
+                }
+                sendEvent(name: "switch", value: "off")
+                initializeSourcePlayingStates()
         return
     }
     
@@ -1096,59 +846,48 @@ def parseDeviceResponse(String asciiMessage) {
 }
 
 def parseZoneStatus(String message) {
-    // Only update ON/OFF state if PWRON/PWROFF present
+    // Parse zone status like #Z01PWRON,SRC3,GRP0,VOL-48
     def parts = message.split(",")
-    def zonePart = parts[0]
-    def zoneMatch = zonePart =~ /#Z(\d+)/
-    if (!zoneMatch.find()) {
-        logW "Unrecognized zone status message: ${message}"
-        return
-    }
-    def zoneNum = zoneMatch.group(1) as Integer
-    boolean powerStateUpdated = false
-    if (zonePart.contains("PWRON")) {
-        sendEvent(name: "Zone ${zoneNum} Status", value: "ON")
-        powerStateUpdated = true
-    } else if (zonePart.contains("PWROFF")) {
-        sendEvent(name: "Zone ${zoneNum} Status", value: "OFF")
-        powerStateUpdated = true
-    }
-    // Only update source/volume/group if present
-    parts.each { part ->
-        if (part.startsWith("SRC")) {
-            def sourceMatch = part =~ /SRC(\d+)/
-            if (sourceMatch.find()) {
+    if (parts.length >= 4) {
+        def zonePart = parts[0]
+        def zoneMatch = zonePart =~ /#Z(\d+)/
+        if (zoneMatch.find()) {
+            def zoneNum = zoneMatch.group(1) as Integer
+            
+            // Parse power status
+            def powerStatus = parts[0].contains("PWRON") ? "ON" : "OFF"
+            sendEvent(name: "Zone ${zoneNum} Status", value: powerStatus)
+            
+            // Parse source
+            def sourceMatch = parts[1] =~ /SRC(\d+)/
+                    if (sourceMatch.find()) {
                 def sourceNum = sourceMatch.group(1) as Integer
                 sendEvent(name: "Zone ${zoneNum} Source", value: sourceNum)
-                scheduleSourceUpdate()
-            }
-        } else if (part.startsWith("GRP")) {
-            def groupMatch = part =~ /GRP(\d+)/
-            if (groupMatch.find()) {
+                        scheduleSourceUpdate()
+                    }
+                    
+            // Parse group
+            def groupMatch = parts[2] =~ /GRP(\d+)/
+                    if (groupMatch.find()) {
                 def groupNum = groupMatch.group(1) as Integer
                 sendEvent(name: "Zone ${zoneNum} Group", value: groupNum)
             }
-        } else if (part.startsWith("VOL-")) {
-            def nuvoVolume = part.substring(4) as Integer
-            int userVolume = 100 - (int)(nuvoVolume * 99 / 79)
-            userVolume = Math.max(1, Math.min(100, userVolume))
-            sendEvent(name: "Zone ${zoneNum} Volume", value: userVolume.toString())
-        } else if (part.startsWith("OR")) {
-            // OR status is read-only - indicates if zone DIP switches are overridden
-            // No corresponding command to set this state
-        } else if (part.startsWith("BASS")) {
-            sendEvent(name: "Zone ${zoneNum} EQBass", value: part.replace("BASS", ""))
-        } else if (part.startsWith("TREB")) {
-            sendEvent(name: "Zone ${zoneNum} EQTreble", value: part.replace("TREB", ""))
-        } else if (part.startsWith("VRST")) {
-            def restoreState = part == "VRST1" ? "ON" : "OFF"
-            sendEvent(name: "Zone ${zoneNum} VolumeRestore", value: restoreState)
+            
+            // Parse volume
+            def volumePart = parts[3]
+            if (volumePart.startsWith("VOL-")) {
+                def nuvoVolume = volumePart.substring(4) as Integer
+                // Convert Nuvo volume (0-79) back to user volume (1-100)
+                // Nuvo: 0=loudest, 79=quietest
+                // User: 1=quietest, 100=loudest
+                int userVolume = 100 - (int)(nuvoVolume * 99 / 79)
+                userVolume = Math.max(1, Math.min(100, userVolume))
+                sendEvent(name: "Zone ${zoneNum} Volume", value: userVolume.toString())
+            }
+            
+            logD "Parsed zone ${zoneNum}: ${powerStatus}, Source ${sourceMatch ? sourceMatch.group(1) : 'N/A'}, Volume ${volumePart}"
         }
     }
-    if (!powerStateUpdated && !parts.any { it.startsWith("SRC") || it.startsWith("GRP") || it.startsWith("VOL-") || it.startsWith("OR") || it.startsWith("BASS") || it.startsWith("TREB") || it.startsWith("VRST") }) {
-        logW "Unrecognized zone status message: ${message}"
-    }
-    logD "Parsed zone ${zoneNum}: ${powerStateUpdated ? device.currentValue("Zone ${zoneNum} Status") : "(no power state)"}, Source ${device.currentValue("Zone ${zoneNum} Source")}, Volume ${device.currentValue("Zone ${zoneNum} Volume")}, Relay ${device.currentValue("Zone ${zoneNum} Relay")}, Bass ${device.currentValue("Zone ${zoneNum} EQBass")}, Treble ${device.currentValue("Zone ${zoneNum} EQTreble")}, VolumeRestore ${device.currentValue("Zone ${zoneNum} VolumeRestore")}" 
 }
 
 void initializeSourcePlayingStates() {
@@ -1190,7 +929,7 @@ void updateSourcePlayingStates() {
             sendEvent(name: "Source ${i} Playing", value: newState)
             logD "Source ${i} Playing: ${newState}"
         }
-    } catch (Exception e) {
+                            } catch (Exception e) {
         logE "Error updating source playing states: ${e.message}"
     } finally {
         state.sourceUpdatePending = false
@@ -1208,9 +947,6 @@ def parseTunerStatus(String message) {
     logD "Tuner status: ${message}"
 }
 
-/**
- * Get status for a specific zone (1-12)
- */
 def getZoneStatus(def zoneNum) {
     int zone = zoneNum as Integer
     def formattedZone = String.format("%02d", zone)
@@ -1218,33 +954,14 @@ def getZoneStatus(def zoneNum) {
     sendCommand("*Z${formattedZone}CONSR")
 }
 
-/**
- * Get complete status (power, source, volume, group, relay, bass, treble, volume restore) for all zones
- */
 def getAllZoneStatus() {
-    logI "Getting status for all zones (CONSR + SETSR)"
+    logI "Getting status for all zones"
     for (int zone = 1; zone <= 12; zone++) {
         def formattedZone = String.format("%02d", zone)
-        // Send CONSR first, then SETSR for each zone
         sendCommand("*Z${formattedZone}CONSR")
-        sendCommand("*Z${formattedZone}SETSR")
     }
 }
 
-/**
- * Get configuration parameters (relay, bass, treble, volume restore) for all zones. Does not include power/source/volume status.
- */
-def getAllZoneParameters() {
-    logI "Getting parameters for all zones (SETSR only)"
-    for (int zone = 1; zone <= 12; zone++) {
-        def formattedZone = String.format("%02d", zone)
-        sendCommand("*Z${formattedZone}SETSR")
-    }
-}
-
-/**
- * Manually trigger a heartbeat check for the current zone
- */
 def forceHeartbeat() {
     logI "Manual heartbeat check initiated"
     checkConnection()
@@ -1260,57 +977,12 @@ def updateConnectionHealth() {
         health = "DEGRADED"
     } else if (failures < 10) {
         health = "POOR"
-    } else {
+            } else {
         health = "CRITICAL"
     }
     
     sendEvent(name: "connectionHealth", value: health)
     sendEvent(name: "connectionFailures", value: failures)
-}
-
-/**
- * Set the bass EQ for a specific zone (1-12)
- */
-def setZoneBass(def zoneNum, def bassVal) {
-    int zone = zoneNum as Integer
-    int bass = bassVal as Integer
-    if (bass < -12 || bass > 12) {
-        logE "Invalid bass value: ${bass}. Must be between -12 and 12."
-        return
-    }
-    def formattedZone = String.format("%02d", zone)
-    def sign = bass >= 0 ? "+" : "-"
-    def formattedBass = String.format("%02d", Math.abs(bass))
-    logD "Setting zone ${formattedZone} bass to ${bass}"
-    sendCommand("*Z${formattedZone}BASS${sign}${formattedBass}")
-}
-
-/**
- * Set the treble EQ for a specific zone (1-12)
- */
-def setZoneTreble(def zoneNum, def trebVal) {
-    int zone = zoneNum as Integer
-    int treb = trebVal as Integer
-    if (treb < -12 || treb > 12) {
-        logE "Invalid treble value: ${treb}. Must be between -12 and 12."
-        return
-    }
-    def formattedZone = String.format("%02d", zone)
-    def sign = treb >= 0 ? "+" : "-"
-    def formattedTreble = String.format("%02d", Math.abs(treb))
-    logD "Setting zone ${formattedZone} treble to ${treb}"
-    sendCommand("*Z${formattedZone}TREB${sign}${formattedTreble}")
-}
-
-/**
- * Set the volume restore state for a specific zone (1-12)
- */
-def setZoneVolumeRestore(def zoneNum, def restoreState) {
-    int zone = zoneNum as Integer
-    def formattedZone = String.format("%02d", zone)
-    def commandSuffix = restoreState.toString().toUpperCase() == "ON" ? "ON" : "OFF"
-    logD "Setting zone ${formattedZone} volume restore to ${restoreState}"
-    sendCommand("*Z${formattedZone}VRST${commandSuffix}")
 }
 
 void logD(String msg) {
