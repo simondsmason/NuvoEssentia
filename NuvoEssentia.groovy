@@ -72,12 +72,21 @@
  *                                     Heartbeat now includes parameter polling; Added getAllZoneParameters() command;
  *                                     Improved error handling - unrecognized responses are logged but don't affect zone state;
  *                                     Added comprehensive command documentation; Removed validateConnection from UI commands
+ *    version 1.20  @  2025-01-08  -  Fixed BASS/TREBLE command formatting to use 3-digit format with leading zeros;
+ *                                     Removed invalid relay command and UI elements (OR command not supported by Nuvo);
+ *                                     Fixed volume reset commands to use VRSTON/VRSTOFF format instead of VRST1/VRST0;
+ *                                     Resolved #? syntax errors from malformed commands
+ *    version 1.21  @  2025-01-08  -  Fixed BASS/TREBLE range from -10/+10 to correct -12/+12 range per Nuvo documentation;
+ *                                     Updated UI descriptions to clarify positive values don't need plus sign;
+ *                                     Improved command formatting for better user experience
+ *    version 1.22  @  2025-01-08  -  Fixed critical bug: negative BASS/TREBLE values were missing minus sign in commands;
+ *                                     Commands now properly format negative values (e.g., *Z11BASS-11 instead of *Z11BASS11)
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.19"
+@Field static final String DRIVER_VERSION = "1.22"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -114,9 +123,8 @@ metadata {
         command "getAllZoneParameters"
         command "allOff"
         
-        command "setZoneRelay", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "RelayState", type: "ENUM", description: "Relay state (ON/OFF)", constraints: ["ON", "OFF"]]]
-        command "setZoneBass", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "Bass", type: "NUMBER", description: "Bass EQ (-10 to +10)"]]
-        command "setZoneTreble", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "Treble", type: "NUMBER", description: "Treble EQ (-10 to +10)"]]
+        command "setZoneBass", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "Bass", type: "NUMBER", description: "Bass EQ (-12 to +12, use minus for negative, no plus for positive)"]]
+        command "setZoneTreble", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "Treble", type: "NUMBER", description: "Treble EQ (-12 to +12, use minus for negative, no plus for positive)"]]
         command "setZoneVolumeRestore", [[name: "Zone", type: "NUMBER", description: "Zone number (1-12)"], [name: "RestoreState", type: "ENUM", description: "Volume Restore (ON/OFF)", constraints: ["ON", "OFF"]]]
         
         for (int i = 1; i <= 12; i++) {
@@ -126,7 +134,6 @@ metadata {
             attribute "Zone ${i} Group", "number"
             attribute "Zone ${i} EQBass", "string"
             attribute "Zone ${i} EQTreble", "string"
-            attribute "Zone ${i} Relay", "string"
             attribute "Zone ${i} VolumeRestore", "string"
         }
         
@@ -1117,8 +1124,8 @@ def parseZoneStatus(String message) {
             userVolume = Math.max(1, Math.min(100, userVolume))
             sendEvent(name: "Zone ${zoneNum} Volume", value: userVolume.toString())
         } else if (part.startsWith("OR")) {
-            def relayState = part == "OR1" ? "ON" : "OFF"
-            sendEvent(name: "Zone ${zoneNum} Relay", value: relayState)
+            // OR status is read-only - indicates if zone DIP switches are overridden
+            // No corresponding command to set this state
         } else if (part.startsWith("BASS")) {
             sendEvent(name: "Zone ${zoneNum} EQBass", value: part.replace("BASS", ""))
         } else if (part.startsWith("TREB")) {
@@ -1252,30 +1259,20 @@ def updateConnectionHealth() {
 }
 
 /**
- * Set the output relay state for a specific zone (1-12)
- */
-def setZoneRelay(def zoneNum, def relayState) {
-    int zone = zoneNum as Integer
-    def formattedZone = String.format("%02d", zone)
-    def stateVal = relayState.toString().toUpperCase() == "ON" ? 1 : 0
-    logD "Setting zone ${formattedZone} relay to ${relayState}"
-    sendCommand("*Z${formattedZone}OR${stateVal}")
-}
-
-/**
  * Set the bass EQ for a specific zone (1-12)
  */
 def setZoneBass(def zoneNum, def bassVal) {
     int zone = zoneNum as Integer
     int bass = bassVal as Integer
-    if (bass < -10 || bass > 10) {
-        logE "Invalid bass value: ${bass}. Must be between -10 and 10."
+    if (bass < -12 || bass > 12) {
+        logE "Invalid bass value: ${bass}. Must be between -12 and 12."
         return
     }
     def formattedZone = String.format("%02d", zone)
-    def sign = bass >= 0 ? "+" : ""
+    def sign = bass >= 0 ? "+" : "-"
+    def formattedBass = String.format("%02d", Math.abs(bass))
     logD "Setting zone ${formattedZone} bass to ${bass}"
-    sendCommand("*Z${formattedZone}BASS${sign}${bass}")
+    sendCommand("*Z${formattedZone}BASS${sign}${formattedBass}")
 }
 
 /**
@@ -1284,14 +1281,15 @@ def setZoneBass(def zoneNum, def bassVal) {
 def setZoneTreble(def zoneNum, def trebVal) {
     int zone = zoneNum as Integer
     int treb = trebVal as Integer
-    if (treb < -10 || treb > 10) {
-        logE "Invalid treble value: ${treb}. Must be between -10 and 10."
+    if (treb < -12 || treb > 12) {
+        logE "Invalid treble value: ${treb}. Must be between -12 and 12."
         return
     }
     def formattedZone = String.format("%02d", zone)
-    def sign = treb >= 0 ? "+" : ""
+    def sign = treb >= 0 ? "+" : "-"
+    def formattedTreble = String.format("%02d", Math.abs(treb))
     logD "Setting zone ${formattedZone} treble to ${treb}"
-    sendCommand("*Z${formattedZone}TREB${sign}${treb}")
+    sendCommand("*Z${formattedZone}TREB${sign}${formattedTreble}")
 }
 
 /**
@@ -1300,9 +1298,9 @@ def setZoneTreble(def zoneNum, def trebVal) {
 def setZoneVolumeRestore(def zoneNum, def restoreState) {
     int zone = zoneNum as Integer
     def formattedZone = String.format("%02d", zone)
-    def stateVal = restoreState.toString().toUpperCase() == "ON" ? 1 : 0
+    def commandSuffix = restoreState.toString().toUpperCase() == "ON" ? "ON" : "OFF"
     logD "Setting zone ${formattedZone} volume restore to ${restoreState}"
-    sendCommand("*Z${formattedZone}VRST${stateVal}")
+    sendCommand("*Z${formattedZone}VRST${commandSuffix}")
 }
 
 void logD(String msg) {
