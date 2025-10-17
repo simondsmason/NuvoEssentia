@@ -83,12 +83,15 @@
  *                                     Commands now properly format negative values (e.g., *Z11BASS-11 instead of *Z11BASS11)
  *    version 1.23  @  2025-01-08  -  Fixed command queue timing: replaced broken pauseExecution() with runIn() for proper command spacing;
  *                                     Added comprehensive timing debugging to track actual vs expected delays
+ *    version 1.24  @  2025-01-08  -  Fixed queue state management: resolved race conditions in runIn() approach;
+ *                                     Added proper state reset logic to prevent "Queue already processing" issues;
+ *                                     Ensured rules work correctly by fixing queue processing state transitions
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.23"
+@Field static final String DRIVER_VERSION = "1.24"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -954,15 +957,16 @@ def sendCommand(String command) {
         logD "[QUEUE] Initialized empty command queue"
     }
     
+    def queueSize = state.commandQueue.size()
     state.commandQueue << [command: command, timestamp: queueTime]
     updateQueueStatus()
-    logD "[QUEUE] Queued command: ${command} (Queue size: ${state.commandQueue.size()}) at ${queueTime}"
+    logD "[QUEUE] Queued command: ${command} (Queue size: ${queueSize} -> ${state.commandQueue.size()}) at ${queueTime}"
     
     if (!state.queueProcessing) {
-        logD "[QUEUE] Queue not processing, starting processCommandQueue()"
+        logD "[QUEUE] Empty queue (size: ${queueSize}) - processing immediately"
         processCommandQueue()
     } else {
-        logD "[QUEUE] Queue already processing, command will be processed later"
+        logD "[QUEUE] Queue already processing (size: ${queueSize}) - command will be processed later"
     }
 }
 
@@ -1011,17 +1015,30 @@ def processCommandQueue() {
         return
     }
     
-    // Check if already processing
+    // Check if already processing - handle race conditions properly
     if (state.queueProcessing) {
         logD "[QUEUE] WARNING: Queue already processing! Called by: ${callerInfo}"
-        return
+        logD "[QUEUE] Checking if this is a stale processing state..."
+        
+        // If queue is empty but still marked as processing, reset the state
+        if (!state.commandQueue || state.commandQueue.isEmpty()) {
+            logD "[QUEUE] Resetting stale processing state - queue is empty"
+            state.queueProcessing = false
+            updateQueueStatus()
+            // Continue processing instead of returning
+        } else {
+            logD "[QUEUE] Queue is genuinely processing, command will be queued"
+            return
+        }
     }
     
     state.queueProcessing = true
     updateQueueStatus()
     
     def command = state.commandQueue.remove(0)
+    def queueDelay = nowTime - command.timestamp
     logD "[QUEUE] processCommandQueue processing at ${nowTime} (queue size before: ${state.commandQueue.size() + 1}, after: ${state.commandQueue.size()})"
+    logD "[QUEUE] Queue processing delay: ${queueDelay} ms (command queued at ${command.timestamp})"
     if (state.lastCommandSentTime) {
         def elapsed = nowTime - state.lastCommandSentTime
         logD "[QUEUE] Time since last command sent: ${elapsed} ms"
@@ -1035,13 +1052,22 @@ def processCommandQueue() {
         state.lastCommandSentTime = sendTime
         logD "[QUEUE] Command sent at ${sendTime}, lastCommandSentTime updated"
         
-        // Schedule next command processing with precise timing using runIn()
-        def spacing = settings.commandSpacing ?: 500
-        def delaySeconds = Math.ceil(spacing / 1000) as Integer
-        state.lastRunInScheduledTime = now()
-        logD "[QUEUE] Scheduling next command processing in ${delaySeconds} seconds (${spacing} ms) at ${state.lastRunInScheduledTime}"
-        runIn(delaySeconds, "processCommandQueue")
-        logD "[QUEUE] runIn() scheduled, exiting processCommandQueue"
+        // Check if there are more commands to process
+        if (state.commandQueue && !state.commandQueue.isEmpty()) {
+            // Schedule next command processing with precise timing using runIn()
+            def spacing = settings.commandSpacing ?: 500
+            def delaySeconds = Math.ceil(spacing / 1000) as Integer
+            state.lastRunInScheduledTime = now()
+            logD "[QUEUE] More commands in queue (${state.commandQueue.size()}) - scheduling runIn() in ${delaySeconds} seconds (${spacing} ms) at ${state.lastRunInScheduledTime}"
+            runIn(delaySeconds, "processCommandQueue")
+            logD "[QUEUE] runIn() scheduled, exiting processCommandQueue"
+        } else {
+            // No more commands, reset processing state
+            logD "[QUEUE] No more commands in queue (${state.commandQueue.size()}) - resetting processing state"
+            state.queueProcessing = false
+            updateQueueStatus()
+            logD "[QUEUE] Queue processing complete"
+        }
     } catch (Exception e) {
         logE "[QUEUE] Error processing command ${command.command}: ${e.message}"
         state.queueProcessing = false
