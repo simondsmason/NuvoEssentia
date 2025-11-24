@@ -86,12 +86,23 @@
  *    version 1.24  @  2025-01-08  -  Fixed queue state management: resolved race conditions in runIn() approach;
  *                                     Added proper state reset logic to prevent "Queue already processing" issues;
  *                                     Ensured rules work correctly by fixing queue processing state transitions
+ *    version 1.25  @  2025-01-22  -  Added socketReceiveError logging to syslog as warnings for visibility;
+ *                                     Added version attribute to state per NTM standard;
+ *                                     Updated all log statements to include version number per NTM standard
+ *    version 1.26  @  2025-11-23  -  TESTING: Temporarily disabled SETSR command in heartbeat to investigate
+ *                                     CONSR error responses (#?); Heartbeat now only sends CONSR commands;
+ *                                     Testing if sending SETSR immediately after CONSR is causing errors
+ *    version 1.27  @  2025-11-24  -  TESTING: Temporarily disabled CONSR in heartbeat to test SETSR alone;
+ *                                     Heartbeat now only sends SETSR commands; Testing if SETSR has issues on its own
+ *    version 1.28  @  2025-11-24  -  Removed SETSR from heartbeat (heartbeat now only sends CONSR);
+ *                                     Added hourly SETSR routine that queries one zone per hour in rotating order;
+ *                                     Improved #? error logging for better visibility
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.24"
+@Field static final String DRIVER_VERSION = "1.28"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -217,6 +228,7 @@ void updated() {
         logI "Only logging preferences changed - not reinitializing connection"
         if (state.socketConnected) {
             scheduleHeartbeat()
+            scheduleHourlySetSr()
         }
     } else {
         logI "Connection settings changed - reinitializing"
@@ -228,10 +240,14 @@ void initialize() {
     logD "initializing device..."
     unschedule()
     
+    // Set version attribute in state (required per NTM standard)
+    state.version = DRIVER_VERSION
+    
     // Simplified state initialization
     state.socketConnected = false
     state.lastResponseTime = null
     state.heartbeatZone = 1
+    state.setSrZone = 1  // Zone for hourly SETSR routine
     state.consecutiveFailures = 0
     state.maxConsecutiveFailures = 3
     state.consecutiveCommunicationFailures = 0
@@ -437,6 +453,7 @@ def forceReconnect() {
     unschedule("openConnection")
     unschedule("validateConnection")
     unschedule("connectionValidationTimeout")
+    unschedule("hourlySetSr")
     openConnection()
 }
 
@@ -450,6 +467,31 @@ def scheduleHeartbeat() {
         logD "Scheduling heartbeat check every ${actualInterval} seconds"
         runIn(actualInterval, "checkConnection")
     }
+}
+
+def scheduleHourlySetSr() {
+    unschedule("hourlySetSr")
+    logD "Scheduling hourly SETSR routine"
+    // Schedule first run in 1 hour, then it will reschedule itself
+    runIn(3600, "hourlySetSr")
+}
+
+def hourlySetSr() {
+    logD "Hourly SETSR routine: querying Zone ${state.setSrZone ?: 1}"
+    
+    if (!state.setSrZone) {
+        state.setSrZone = 1
+    }
+    
+    def formattedZone = String.format("%02d", state.setSrZone)
+    logI "Requesting SETSR for Zone ${state.setSrZone}"
+    sendCommand("*Z${formattedZone}SETSR")
+    
+    // Rotate to next zone for next hour
+    state.setSrZone = (state.setSrZone % 12) + 1
+    
+    // Schedule next run in 1 hour
+    scheduleHourlySetSr()
 }
 
 def checkConnection() {
@@ -502,9 +544,7 @@ def checkConnection() {
             
             logD "Heartbeat check: querying Zone ${state.heartbeatZone}"
             getZoneStatus(state.heartbeatZone)
-            // Also get parameters for the heartbeat zone
-            def formattedZone = String.format("%02d", state.heartbeatZone)
-            sendCommand("*Z${formattedZone}SETSR")
+            // SETSR removed from heartbeat - now handled by hourly routine
             
             state.heartbeatZone = (state.heartbeatZone % 12) + 1
             
@@ -583,6 +623,9 @@ def parse(String description) {
         def heartbeatDelay = Math.max(settings.heartbeatInterval ?: 25, 15)
         unschedule("checkConnection")
         runIn(heartbeatDelay, "checkConnection")
+        
+        // Start hourly SETSR routine
+        scheduleHourlySetSr()
     }
     
     logD "Response received - updating lastResponseTime to ${new Date(currentTime).format('HH:mm:ss')}"
@@ -1340,17 +1383,17 @@ def setZoneVolumeRestore(def zoneNum, def restoreState) {
 }
 
 void logD(String msg) {
-    if (settings.logDebug) log.debug "${device.displayName} :: ${msg}"
+    if (settings.logDebug) log.debug "${device.displayName} :: ${msg} (v${DRIVER_VERSION})"
 }
 
 void logE(String msg) {
-    log.error "${device.displayName} :: ${msg}"
+    log.error "${device.displayName} :: ${msg} (v${DRIVER_VERSION})"
 }
 
 void logI(String msg) {
-    log.info "${device.displayName} :: ${msg}"
+    log.info "${device.displayName} :: ${msg} (v${DRIVER_VERSION})"
 }
 
 void logW(String msg) {
-    log.warn "${device.displayName} :: ${msg}"
+    log.warn "${device.displayName} :: ${msg} (v${DRIVER_VERSION})"
 }

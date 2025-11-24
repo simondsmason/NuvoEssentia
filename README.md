@@ -115,7 +115,21 @@ The USR-TCP232-302 should be configured as:
 - Any device that can bridge TCP port 23 to RS232 serial
 
 ## Version History
-- **v1.22 (Current)**: Fixed critical minus sign bug in BASS/TREBLE commands
+- **v1.27 (Current - Testing)**: Temporarily disabled CONSR in heartbeat to test SETSR alone
+  - TESTING: Disabled CONSR command in heartbeat to test if SETSR has issues on its own
+  - Heartbeat now only sends SETSR commands
+  - Testing hypothesis that SETSR command may have issues independent of CONSR
+- **v1.26 (Testing)**: Temporarily disabled SETSR in heartbeat to investigate CONSR errors
+  - TESTING: Disabled SETSR command in heartbeat to test if it's causing CONSR error responses (#?)
+  - Heartbeat now only sends CONSR commands (via getZoneStatus)
+  - Testing hypothesis that sending SETSR immediately after CONSR is causing communication errors
+- **v1.25**: Added socketReceiveError logging to syslog; Added version attribute to state; Updated all logs to include version
+  - Added socketReceiveError event logging as warnings to make connection issues visible in syslog
+  - Added version attribute to state per NTM standard for driver version tracking
+  - Updated all log statements to include version number per NTM standard
+- **v1.24**: Fixed queue state management and race conditions
+- **v1.23**: Fixed command queue timing with runIn() replacement
+- **v1.22**: Fixed critical minus sign bug in BASS/TREBLE commands
   - Fixed bug where negative BASS/TREBLE values were missing minus sign in commands
   - Commands now properly format negative values (e.g., *Z11BASS-11 instead of *Z11BASS11)
   - Resolved #? syntax errors when setting negative BASS/TREBLE values
