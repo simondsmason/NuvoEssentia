@@ -115,7 +115,15 @@ The USR-TCP232-302 should be configured as:
 - Any device that can bridge TCP port 23 to RS232 serial
 
 ## Version History
-- **v1.27 (Current - Testing)**: Temporarily disabled CONSR in heartbeat to test SETSR alone
+- **v1.29**: Extended source playing state update delay from 5 seconds to 5 minutes
+  - Allows users to move between zones playing same source without source startup delay
+  - Source remains marked as playing for 5 minutes after last zone turns off
+  - Improves user experience when moving between rooms with same audio source
+- **v1.28**: Removed SETSR from heartbeat; Added hourly SETSR routine
+  - Removed SETSR from heartbeat (heartbeat now only sends CONSR)
+  - Added hourly SETSR routine that queries one zone per hour in rotating order
+  - Improved #? error logging for better visibility
+- **v1.27 (Testing)**: Temporarily disabled CONSR in heartbeat to test SETSR alone
   - TESTING: Disabled CONSR command in heartbeat to test if SETSR has issues on its own
   - Heartbeat now only sends SETSR commands
   - Testing hypothesis that SETSR command may have issues independent of CONSR
