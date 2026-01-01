@@ -97,15 +97,12 @@
  *    version 1.28  @  2025-11-24  -  Removed SETSR from heartbeat (heartbeat now only sends CONSR);
  *                                     Added hourly SETSR routine that queries one zone per hour in rotating order;
  *                                     Improved #? error logging for better visibility
- *    version 1.29  @  2025-12-30  -  Extended source playing state update delay from 5 seconds to 5 minutes;
- *                                     Allows users to move between zones playing same source without source startup delay;
- *                                     Source remains marked as playing for 5 minutes after last zone turns off
  */
 
 import groovy.transform.Field
 
 @Field static final String DRIVER_NAME = "Nuvo Essentia"
-@Field static final String DRIVER_VERSION = "1.29"
+@Field static final String DRIVER_VERSION = "1.28"
 
 metadata {
     definition(name: DRIVER_NAME, namespace: "simonmason", author: "Simon Mason") {
@@ -1271,7 +1268,7 @@ void updateSourcePlayingStates() {
 
 void scheduleSourceUpdate() {
     unschedule("updateSourcePlayingStates")
-    runIn(300, "updateSourcePlayingStates")
+    runIn(5, "updateSourcePlayingStates")
 }
 
 def parseTunerStatus(String message) {
